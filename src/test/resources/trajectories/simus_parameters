@@ -1,0 +1,4 @@
+well_simu_1.csv: id:d93dcaaeae1f01d3d185b4f8ddab7b7fe4fc5115_A:0.15_D:0.05_DT:0.01_Npts:100_Nrep:100_Nstop:100_Seed:3286871552_Sf:2_a:0.1_b:0.1_dt:0.001_mux:10_muy:10_phi:0
+well_simu_2.csv: id:d93dcaaeae1f01d3d185b4f8ddab7b7fe4fc5115_A:0.2_D:0.05_DT:0.02_Npts:20_Nrep:100_Nstop:1000_Seed:1353671424_Sf:2_a:0.15_b:0.1_dt:0.001_mux:10_muy:10_phi:0
+well_simu_3.csv: id:d93dcaaeae1f01d3d185b4f8ddab7b7fe4fc5115_A:0.3_D:0.05_DT:0.05_Npts:20_Nrep:100_Nstop:1000_Seed:3294031616_Sf:2_a:0.15_b:0.1_dt:0.001_mux:10_muy:10_phi:0
+well_simu_4.csv: id:d93dcaaeae1f01d3d185b4f8ddab7b7fe4fc5115_A:0.3_D:0.05_DT:0.05_Npts:20_Nrep:100_Nstop:1000_Seed:4075977984_Sf:2_a:0.15_b:0.15_dt:0.001_mux:10_muy:10_phi:0
