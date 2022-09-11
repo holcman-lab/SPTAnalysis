@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.joml.Math;
+
 import fiji.plugin.SPTAnalysis.XMLAdapters;
 import fiji.plugin.SPTAnalysis.estimators.WellScore;
 import fiji.plugin.SPTAnalysis.wellDetection.FitResult;
@@ -65,6 +67,12 @@ public class PotWell
 	public double D()
 	{
 		return this.D;
+	}
+
+	public double residence_time()
+	{
+		return this.ell.rad()[0] * this.ell.rad()[1] * this.D / (4 * this.A * this.A)
+				* Math.exp(this.A / this.D);
 	}
 
 	public FitResult fitResult()

@@ -1,0 +1,3 @@
++ v1.2:
+* Add residence time computation for potential wells.
+* Correct a crash when clicking on the first line of the well results table.

@@ -40,7 +40,7 @@ public class PotWellsWindows
 		int cpt = 0;
 		BufferedWriter writer = new BufferedWriter(new FileWriter(outPath));
 		if (header)
-			writer.write("idx, window, mu_x, mu_y, a, b, phi, A, D, score, Family\n");
+			writer.write("idx, window, mu_x, mu_y, a, b, phi, A, D, score, res. time, Family\n");
 
 		for (int i = 0; i < this.wins.size(); ++i)
 		{
@@ -48,8 +48,8 @@ public class PotWellsWindows
 			{
 				PotWell w = this.wins.get(i).wells.get(j);
 				if (selection.inside(w.ell().mu()))
-					writer.write(String.format("%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%d\n", cpt, i, w.ell().mu()[0], w.ell().mu()[1],
-							w.ell().rad()[0], w.ell().rad()[1], w.ell().phi(), w.A(), w.D(), w.score().value(),
+					writer.write(String.format("%d,%d,%g,%g,%g,%g,%g,%g,%g,%g,%g,%d\n", cpt, i, w.ell().mu()[0], w.ell().mu()[1],
+							w.ell().rad()[0], w.ell().rad()[1], w.ell().phi(), w.A(), w.D(), w.score().value(), w.residence_time(),
 							WellLinker.findFamily(new WellLinker.WindowIndex(i,j), this.links)));
 				++cpt;
 			}

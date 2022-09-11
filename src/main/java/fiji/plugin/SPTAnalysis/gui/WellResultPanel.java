@@ -75,6 +75,7 @@ public class WellResultPanel extends JPanel
 		ArrayList<Double> Ds = new ArrayList<> ();
 		ArrayList<Double> Es = new ArrayList<> ();
 		ArrayList<Double> scores = new ArrayList<> ();
+		ArrayList<Double> resTimes = new ArrayList<> ();
 
 		int cpt = 0;
 		for (int i = 0; i < this.wells.wins.size(); ++i)
@@ -85,7 +86,7 @@ public class WellResultPanel extends JPanel
 				if (!use_reg || (this.gctrl.selectedRegion() != null &&
 						this.gctrl.selectedRegion().inside(w.ell().mu())))
 				{
-					String[] data = new String[12];
+					String[] data = new String[13];
 					data[0] = String.format("%d", cpt);
 					data[1] = String.format("%d", i);
 					data[2] = String.format("%.2f", w.ell().mu()[0]);
@@ -97,11 +98,12 @@ public class WellResultPanel extends JPanel
 					data[8] = String.format("%.2f", w.D());
 					data[9] = String.format("%.2f", w.A() / w.D());
 					data[10] = String.format("%.2f", w.score().value());
+					data[11] = String.format("%.2f", w.residence_time());
 	
 					if (this.wells.links() == null)
-						data[11] = "-1";
+						data[12] = "-1";
 					else
-						data[11] = String.format("%d", WellLinker.findFamily(new WellLinker.WindowIndex(i,j),
+						data[12] = String.format("%d", WellLinker.findFamily(new WellLinker.WindowIndex(i,j),
 								this.wells.links()));
 
 					as.add(w.ell().rad()[0]);
@@ -110,6 +112,7 @@ public class WellResultPanel extends JPanel
 					Ds.add(w.D());
 					Es.add(w.A() / w.D());
 					scores.add(w.score().value());
+					resTimes.add(w.residence_time());
 	
 					this.dtm.addRow(data);
 				}
@@ -117,7 +120,7 @@ public class WellResultPanel extends JPanel
 			}
 		}
 
-		String[] data = new String[12];
+		String[] data = new String[13];
 		data[0] = "AVG ± SD";
 		data[1] = "";
 		data[2] = "";
@@ -129,7 +132,8 @@ public class WellResultPanel extends JPanel
 		data[8] = String.format("%.2f ± %.2f", Utils.arrayAVG(Ds), Utils.arraySD(Ds));
 		data[9] = String.format("%.2f ± %.2f", Utils.arrayAVG(Es), Utils.arraySD(Es));
 		data[10] = String.format("%.2f ± %.2f", Utils.arrayAVG(scores), Utils.arraySD(scores));
-		data[11] = String.format("N=%d", As.size());
+		data[11] = String.format("%.3f ± %.3f", Utils.arrayAVG(resTimes), Utils.arraySD(resTimes));
+		data[12] = String.format("N=%d", As.size());
 
 		dtm.insertRow(0, data);
 	}
@@ -142,7 +146,8 @@ public class WellResultPanel extends JPanel
 		this.wells = wells;
 
 		String[] head = {"ID", "Frame", "x (µm)", "y (µm)", "a (µm)",
-				 "b (µm)", "φ", "A (µm²/s)", "D (µm²/s)", "E (kT)", "score", "Family"};
+				 "b (µm)", "φ", "A (µm²/s)", "D (µm²/s)", "E (kT)", "score",
+				 "Res. time (s)", "Family"};
 
 		this.dtm = new DefaultTableModel()
 		{
@@ -166,7 +171,8 @@ public class WellResultPanel extends JPanel
 		{
 			public void valueChanged(ListSelectionEvent event)
 			{
-				if (tab.getSelectedRow() == -1)
+				//either invalid row or AVG row
+				if (tab.getSelectedRow() < 1)
 					return;
 
 				highlightCoord(tab.getSelectedRow());
