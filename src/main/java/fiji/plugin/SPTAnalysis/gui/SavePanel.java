@@ -38,7 +38,7 @@ public class SavePanel extends JPanel
 	private String selected;
 	private final Choice saveChoice;
 
-	
+
 	public static void saveSelection(final File selDir, final Rectangle sel)
 	{
 		BufferedWriter writer;
@@ -90,7 +90,10 @@ public class SavePanel extends JPanel
 				if (selected.equals("SVG"))
 					add(SVGPan);
 				else
+				{
+					CSVPan.reset();
 					add(CSVPan);
+				}
 
 				revalidate();
 				repaint();
@@ -132,5 +135,10 @@ public class SavePanel extends JPanel
 
 		c.gridy = 1;
 		this.add(this.SVGPan, c);
+	}
+
+	public void reset()
+	{
+		this.CSVPan.reset();
 	}
 }

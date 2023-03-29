@@ -178,6 +178,8 @@ public class SelectionPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				saveFrame.setVisible(!saveFrame.isVisible());
+				if (saveFrame.isVisible())
+					savePan.reset();
 			}
 		});
 

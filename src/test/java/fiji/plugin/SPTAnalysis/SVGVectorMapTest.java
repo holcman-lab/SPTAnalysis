@@ -31,13 +31,13 @@ public class SVGVectorMapTest
 				new MapParameters.DriftParameters(g.dx(), 3, false, 0));
 
 		String res = (new SVGVectorMapWriter(drift, dx/2, 100)).generate();
-		assertEquals("<g>\n" + 
+		assertEquals("<g>\n" +
 				"<defs><marker id=\"arrow1\" markerWidth=\"0.025\" markerHeight=\"10\" refX=\"0\" refY=\"3\" orient=\"auto\" markerUnits=\"strokeWidth\"><path d=\"M0,0 L0,6 L9,3 z\" fill=\"rgb(255,0,255)\"/></marker></defs>\n" + 
 				"<defs><marker id=\"arrow2\" markerWidth=\"0.025\" markerHeight=\"10\" refX=\"0\" refY=\"3\" orient=\"auto\" markerUnits=\"strokeWidth\"><path d=\"M0,0 L0,6 L9,3 z\" fill=\"rgb(255,0,0)\"/></marker></defs>\n" + 
 				"<defs><marker id=\"arrow3\" markerWidth=\"0.025\" markerHeight=\"10\" refX=\"0\" refY=\"3\" orient=\"auto\" markerUnits=\"strokeWidth\"><path d=\"M0,0 L0,6 L9,3 z\" fill=\"rgb(0,255,0)\"/></marker></defs>\n" + 
 				"<defs><marker id=\"arrow4\" markerWidth=\"0.025\" markerHeight=\"10\" refX=\"0\" refY=\"3\" orient=\"auto\" markerUnits=\"strokeWidth\"><path d=\"M0,0 L0,6 L9,3 z\" fill=\"rgb(0,255,255)\"/></marker></defs>\n" + 
-				"<!--dx=0.100, minNpts=3\n" + 
-				"-->\n" + 
+				"<!--dx=0.100_minNpts=3\n" +
+				"-->\n" +
 				"<line x1=\"25.0000\" y1=\"85.0000\" x2=\"27.6250\" y2=\"88.1667\" style=\"stroke:rgb(0,255,255);stroke-width:1px;marker-end:url(#arrow4)\"/>\n" + 
 				"<line x1=\"35.0000\" y1=\"75.0000\" x2=\"35.2000\" y2=\"85.0000\" style=\"stroke:rgb(0,255,255);stroke-width:1px;marker-end:url(#arrow4)\"/>\n" + 
 				"<line x1=\"45.0000\" y1=\"65.0000\" x2=\"48.3521\" y2=\"72.9604\" style=\"stroke:rgb(0,255,255);stroke-width:1px;marker-end:url(#arrow4)\"/>\n" + 

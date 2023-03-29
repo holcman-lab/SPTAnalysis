@@ -8,8 +8,10 @@ public class CSVTrajectoriesWriter extends CSVWriter
 {
 	protected final TrajectoryEnsemble trajs;
 
-	public CSVTrajectoriesWriter(TrajectoryEnsemble trajs)
+	public CSVTrajectoriesWriter(final String delim, TrajectoryEnsemble trajs)
 	{
+		super(delim);
+
 		this.trajs = trajs;
 	}
 
@@ -19,8 +21,8 @@ public class CSVTrajectoriesWriter extends CSVWriter
 		StringBuilder sb = new StringBuilder ();
 		for (Trajectory tr: this.trajs.trajs())
 			for (Point p: tr.points())
-				sb.append(String.format("%d %g %g %g\n", tr.id(), p.t, p.x, p.y));
+				sb.append(String.format("%d%s%g%s%g%s%g\n", tr.id(), this.delim,
+						p.t, this.delim, p.x, this.delim, p.y));
 		return sb.toString();
 	}
-
 }

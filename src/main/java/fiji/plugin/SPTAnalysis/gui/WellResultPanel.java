@@ -228,7 +228,7 @@ public class WellResultPanel extends JPanel
 					Rectangle selection = dctrl.default_selection();
 					if (regBox.isSelected())
 						selection = gctrl.selectedRegion();
-					wells.toFile(selFile.getAbsolutePath(), true, selection);
+					wells.toFile(gctrl.csvSeparator(), selFile.getAbsolutePath(), true, selection);
 				}
 				catch (Exception e1)
 				{
@@ -269,7 +269,7 @@ public class WellResultPanel extends JPanel
 									curDir.mkdirs();
 								WellWriter ww = new WellWriter(w, dctrl.trajs().wins.get(i),
 										gctrl.trajsOverlay().colorScheme().wins.get(i), 1.5,
-										curDir.getAbsolutePath());
+										curDir.getAbsolutePath(), gctrl.csvSeparator());
 								ww.generate();
 							}
 							++cpt;

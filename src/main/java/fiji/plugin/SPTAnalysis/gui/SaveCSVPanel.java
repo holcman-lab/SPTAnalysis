@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.scijava.widget.FileWidget;
@@ -39,6 +41,8 @@ public class SaveCSVPanel extends JPanel
 	private final GUIController gctrl;
 
 	private JCheckBox regBox;
+	private JLabel sepLabel;
+	private JFormattedTextField sepPanel;
 	private JButton saveTrajsBut;
 	private JButton saveDensBut;
 	private JButton saveDiffBut;
@@ -79,7 +83,7 @@ public class SaveCSVPanel extends JPanel
 				try
 				{
 					CSVWriter.saveCSV(selDir.getAbsolutePath() + String.format("/trajectories_%d.csv", cpt),
-						new CSVTrajectoriesWriter(Utils.trajsInShape(te, selection)));
+						new CSVTrajectoriesWriter(this.gctrl.csvSeparator(), Utils.trajsInShape(te, selection)));
 				}
 				catch (IOException e1)
 				{
@@ -98,7 +102,8 @@ public class SaveCSVPanel extends JPanel
 			{
 				try {
 					CSVWriter.saveCSV(selDir.getAbsolutePath() + String.format("/density_%d_%s.csv", cpt, dp.toString()),
-							new CSVScalarMapWriter(dens, Utils.squaresInReg(dens.grid(), selection)));
+							new CSVScalarMapWriter(this.gctrl.csvSeparator(), dens,
+									Utils.squaresInReg(dens.grid(), selection)));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -115,7 +120,8 @@ public class SaveCSVPanel extends JPanel
 			{
 				try {
 					CSVWriter.saveCSV(selDir.getAbsolutePath() + String.format("/diffusion_%d_%s.csv", cpt, dp.toString()),
-							new CSVScalarMapWriter(diff, Utils.squaresInReg(diff.grid(), selection)));
+							new CSVScalarMapWriter(this.gctrl.csvSeparator(), diff,
+									Utils.squaresInReg(diff.grid(), selection)));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -132,7 +138,8 @@ public class SaveCSVPanel extends JPanel
 			{
 				try {
 					CSVWriter.saveCSV(selDir.getAbsolutePath() + String.format("/drift_%d_%s.csv", cpt, dp.toString()),
-							new CSVVectorMapWriter(drift, Utils.squaresInReg(drift.grid(), selection)));
+							new CSVVectorMapWriter(this.gctrl.csvSeparator(), drift,
+									Utils.squaresInReg(drift.grid(), selection)));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -198,6 +205,22 @@ public class SaveCSVPanel extends JPanel
 
 		this.regBox = new JCheckBox("Restrict to region", false);
 
+		this.sepLabel = new JLabel(String.format("Separator (%s)",
+				this.gctrl.csvSeparator()));
+
+		this.sepPanel = new JFormattedTextField();
+		this.sepPanel.setValue(gctrl.csvSeparator());
+		this.sepPanel.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				gctrl.setCsvSeparator((String) sepPanel.getValue());
+				sepLabel.setText(String.format("Separator (%s)",
+						gctrl.csvSeparator()));
+			}
+		});
+
 		initGUI();
 	}
 
@@ -211,24 +234,48 @@ public class SaveCSVPanel extends JPanel
 		c.gridx = 0;
 		c.weightx = 1;
 		c.anchor = GridBagConstraints.WEST;
+		c.gridwidth = 2;
 		c.insets = new Insets(0, 10, 10, 10);
+
+		GridBagConstraints cLabel = new GridBagConstraints();
+		cLabel.gridx = 0;
+		cLabel.weightx = 1;
+		cLabel.anchor = GridBagConstraints.WEST;
+		cLabel.insets = new Insets(0, 10, 10, 0);
+
+		GridBagConstraints cData = new GridBagConstraints();
+		cData.gridx = 1;
+		cData.weightx = 0.5;
+		cData.fill = GridBagConstraints.HORIZONTAL;
+		cData.gridwidth = GridBagConstraints.REMAINDER;
+		cData.insets = new Insets(0, 15, 10, 10);
 
 		c.gridy = 0;
 		this.add(this.regBox, c);
 
-		c.gridy = 1;
-		this.add(this.saveTrajsBut, c);
+		cLabel.gridy = 1;
+		this.add(this.sepLabel, cLabel);
+		cData.gridy = 1;
+		this.add(this.sepPanel, cData);
 
 		c.gridy = 2;
-		this.add(this.saveDensBut, c);
+		this.add(this.saveTrajsBut, c);
 
 		c.gridy = 3;
-		this.add(this.saveDiffBut, c);
+		this.add(this.saveDensBut, c);
 
 		c.gridy = 4;
-		this.add(this.saveDriftBut, c);
+		this.add(this.saveDiffBut, c);
 
 		c.gridy = 5;
+		this.add(this.saveDriftBut, c);
+
+		c.gridy = 6;
 		this.add(this.saveAllBut, c);
+	}
+
+	public void reset()
+	{
+		this.sepPanel.setValue(gctrl.csvSeparator());
 	}
 }

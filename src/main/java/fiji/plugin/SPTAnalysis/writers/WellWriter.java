@@ -25,15 +25,17 @@ public class WellWriter
 	protected final TrajectoriesColorScheme coloring;
 	protected final double regExtent;
 	protected final String baseFolder;
+	protected final String delim;
 
-	public WellWriter(final PotWell well, final TrajectoryEnsemble trajs, final TrajectoriesColorScheme coloring, 
-			double regExtent, final String baseFolder)
+	public WellWriter(final PotWell well, final TrajectoryEnsemble trajs, final TrajectoriesColorScheme coloring,
+			double regExtent, final String baseFolder, final String delim)
 	{
 		this.well = well;
 		this.trajs = trajs;
 		this.coloring = coloring;
 		this.regExtent = regExtent;
 		this.baseFolder = baseFolder;
+		this.delim = delim;
 	}
 
 	public void generate() throws IOException
@@ -71,23 +73,25 @@ public class WellWriter
 					new MapParameters.DriftParameters(grid.dx(), 5, false, 0));
 
 		BufferedWriter writer = new BufferedWriter(new FileWriter(baseFolder + String.format("/well.csv")));
-		writer.write("mux,muy,a,b,phi,A,D,score\n");
-		writer.write(String.format("%g,%g,%g,%g,%g,%g,%g,%g\n", e.mu()[0], e.mu()[1],
-				e.rad()[0], e.rad()[1], e.phi(), this.well.A(), this.well.D(), this.well.score().value()));
+		writer.write(String.format("mux%smuy%sa%sb%sphi%sA%sD%sscore\n", this.delim,
+				this.delim, this.delim, this.delim, this.delim, this.delim, this.delim));
+		writer.write(String.format("%g%s%g%s%g%s%g%s%g%s%g%s%g%s%g\n", e.mu()[0], this.delim, e.mu()[1],
+				this.delim, e.rad()[0], this.delim, e.rad()[1], this.delim, e.phi(), this.delim, this.well.A(),
+				this.delim, this.well.D(), this.delim, this.well.score().value()));
 		writer.close();
 
 		ArrayList<int[]> nhs = Utils.squaresInReg(grid, reg);
 
 		CSVWriter.saveCSV(baseFolder + String.format("/trajsInReg.csv"),
-						  new CSVTrajectoriesWriter(trajsInReg));
+						  new CSVTrajectoriesWriter(this.delim, trajsInReg));
 		CSVWriter.saveCSV(baseFolder + String.format("/trajsInWell.csv"),
-						  new CSVTrajectoriesWriter(trajsInEll));
+						  new CSVTrajectoriesWriter(this.delim, trajsInEll));
 		CSVWriter.saveCSV(baseFolder + String.format("/density.csv"),
-						  new CSVScalarMapWriter(dens, nhs));
+						  new CSVScalarMapWriter(this.delim, dens, nhs));
 		CSVWriter.saveCSV(baseFolder + String.format("/diffusion.csv"),
-						  new CSVScalarMapWriter(diff, nhs));
+						  new CSVScalarMapWriter(this.delim, diff, nhs));
 		CSVWriter.saveCSV(baseFolder + String.format("/drift.csv"),
-						  new CSVVectorMapWriter(drift, nhs));
+						  new CSVVectorMapWriter(this.delim, drift, nhs));
 
 		double zf = 100;
 		double[] minP = new double[] {grid.Xmin()[0], grid.Xmin()[1]};

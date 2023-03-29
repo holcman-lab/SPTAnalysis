@@ -28,7 +28,7 @@ public class CSVVectorMapTest
 		SquareGrid g = new SquareGrid(0.1, new double[] {10.0, 10.0}, 6);
 		VectorMap drift = VectorMap.genDriftMap(g, trajs, new MapParameters.DriftParameters(g.dx(), 3, false, 0));
 
-		String res = (new CSVVectorMapWriter(drift)).generate();
+		String res = (new CSVVectorMapWriter(" ", drift)).generate();
 		assertEquals("10.2000 9.60000 0.525000 0.633333\n" + 
 				"10.1000 9.70000 0.0400000 2.00000\n" + 
 				"10.0000 9.80000 0.670417 1.59208\n" + 
@@ -72,8 +72,8 @@ public class CSVVectorMapTest
 
 		Rectangle bnds = new Rectangle(new double[] {0.0, 0.0}, trajsw.maxCoords());
 
-		String res1 = (new CSVVectorMapWriter(drift)).generate();
-		String res2 = (new CSVVectorMapWriter(drift, Utils.squaresInReg(g, bnds))).generate();
+		String res1 = (new CSVVectorMapWriter(" ", drift)).generate();
+		String res2 = (new CSVVectorMapWriter(" ", drift, Utils.squaresInReg(g, bnds))).generate();
 		assertEquals(res1, res2);
 	}
 }

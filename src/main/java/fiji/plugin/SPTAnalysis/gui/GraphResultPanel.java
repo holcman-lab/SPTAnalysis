@@ -227,7 +227,7 @@ public class GraphResultPanel extends JPanel
 					int cpt = 0;
 					for (final Graph g: graphs.wins)
 					{
-						g.toFile(selDir.getAbsolutePath() + String.format("/graph_%d.txt", cpt));
+						g.toFile(gctrl.csvSeparator(), selDir.getAbsolutePath() + String.format("/graph_%d.txt", cpt));
 						++cpt;
 					}
 				}

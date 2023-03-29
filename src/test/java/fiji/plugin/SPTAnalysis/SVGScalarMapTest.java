@@ -30,10 +30,10 @@ public class SVGScalarMapTest
 				new MapParameters.DensityParameters(g.dx(), ScalarMap.DensityOption.NPTS, 0));
 
 		String res = (new SVGScalarMapWriter(dens, 100)).generate();
-		assertEquals("<g>\n" + 
-				"<!--\n" + 
-				"max: 283.000, dx=0.100 (µm), type=NPTS, meanNhSize=0 (cells)\n" + 
-				"-->\n" + 
+		assertEquals("<g>\n" +
+				"<!--\n" +
+				"max: 283.000, dx=0.100_type=NPTS_meanNhSize=0\n" +
+				"-->\n" +
 				"<rect x=\"10.0000\" y=\"80.0000\" width=\"10.0000\" height=\"10.0000\" style=\"fill:rgb(0,2,255)\"/>\n" + 
 				"<rect x=\"20.0000\" y=\"80.0000\" width=\"10.0000\" height=\"10.0000\" style=\"fill:rgb(0,8,255)\"/>\n" + 
 				"<rect x=\"30.0000\" y=\"70.0000\" width=\"10.0000\" height=\"10.0000\" style=\"fill:rgb(0,8,255)\"/>\n" + 

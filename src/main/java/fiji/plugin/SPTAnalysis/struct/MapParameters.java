@@ -72,7 +72,7 @@ public abstract class MapParameters
 		@Override
 		public String toString()
 		{
-			return String.format("dx=%.3f (µm), type=%s, meanNhSize=%d (cells)", this.dx,
+			return String.format("dx=%.3f_type=%s_meanNhSize=%d", this.dx,
 					this.dopt.name(), this.filtNhSize);
 		}
 	}
@@ -124,10 +124,10 @@ public abstract class MapParameters
 		public String toString()
 		{
 			if (!this.filter)
-				return String.format("dx=%.3f, minNpts=%d", this.dx,
+				return String.format("dx=%.3f_minNpts=%d", this.dx,
 						this.nPts);
 			else
-				return String.format("dx=%.3f (µm), minNpts=%d, filterSize=%g (µm)", this.dx,
+				return String.format("dx=%.3f_minNpts=%d_filterSize=%g", this.dx,
 						this.nPts, this.filterSize);
 		}
 	}
@@ -179,10 +179,10 @@ public abstract class MapParameters
 		public String toString()
 		{
 			if (!this.filter)
-				return String.format("dx=%.3f, minNpts=%d", this.dx,
+				return String.format("dx=%.3f_minNpts=%d", this.dx,
 						this.nPts);
 			else
-				return String.format("dx=%.3f (µm), minNpts=%d, filterSize=%g (µm)", this.dx,
+				return String.format("dx=%.3f_minNpts=%d_filterSize=%g", this.dx,
 						this.nPts, this.filterSize);
 		}
 	}

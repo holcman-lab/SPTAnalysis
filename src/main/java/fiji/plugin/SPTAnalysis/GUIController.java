@@ -79,6 +79,8 @@ public class GUIController
 	private JFrame frame;
 	private MainPanel mainPan;
 
+	private String csvSeparator;
+
 
 	@XmlTransient
 	private int curTimeWin;
@@ -195,6 +197,8 @@ public class GUIController
 		this.regenerateTrajsOverlay = true;
 
 		this.curTimeWin = 1;
+
+		this.csvSeparator = ",";
 	}
 
 	public void regenerateTrajsOverlay()
@@ -598,5 +602,15 @@ public class GUIController
 	public TrajectoriesOverlay trajsOverlay()
 	{
 		return this.trajsOverlay;
+	}
+
+	public void setCsvSeparator(final String sep)
+	{
+		this.csvSeparator = sep;
+	}
+
+	public String csvSeparator()
+	{
+		return this.csvSeparator;
 	}
 }

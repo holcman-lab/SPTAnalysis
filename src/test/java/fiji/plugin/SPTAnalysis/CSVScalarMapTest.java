@@ -29,7 +29,7 @@ public class CSVScalarMapTest
 		ScalarMap dens = ScalarMap.genDensityMap(g, trajs,
 				new MapParameters.DensityParameters(g.dx(), ScalarMap.DensityOption.NPTS, 0));
 
-		String res = (new CSVScalarMapWriter(dens)).generate();
+		String res = (new CSVScalarMapWriter(" ", dens)).generate();
 		assertEquals("9.50000 10.2000 1.00000\n" + 
 				"9.60000 10.2000 3.00000\n" + 
 				"9.70000 10.1000 3.00000\n" + 
@@ -88,8 +88,8 @@ public class CSVScalarMapTest
 
 		Rectangle bnds = new Rectangle(new double[] {0.0, 0.0}, trajsw.maxCoords());
 
-		String res1 = (new CSVScalarMapWriter(dens)).generate();
-		String res2 = (new CSVScalarMapWriter(dens, Utils.squaresInReg(g, bnds))).generate();
+		String res1 = (new CSVScalarMapWriter(" ", dens)).generate();
+		String res2 = (new CSVScalarMapWriter(" ", dens, Utils.squaresInReg(g, bnds))).generate();
 		assertEquals(res1, res2);
 	}
 }

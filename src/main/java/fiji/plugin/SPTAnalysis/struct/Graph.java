@@ -76,25 +76,25 @@ public class Graph
 		return res;
 	}
 
-	public void toFile(String outPath) throws IOException
+	public void toFile(final String delim, String outPath) throws IOException
 	{
 		ArrayList<String> links = new ArrayList<>();
 		for (int i: this.nodes.keySet())
 			for (int j: this.nodes.keySet())
 				if (this.connect(i,j) > 0)
-					links.add(String.format("%d,%d,%g\n", i, j, this.C.get(i).get(j)));
+					links.add(String.format("%d%s%d%s%g\n", i, delim, j, delim, this.C.get(i).get(j)));
 
 		BufferedWriter writer = new BufferedWriter(new FileWriter(outPath));
 
 		//Changed in v.1.1: added this first line giving the number of nodes and links
-		writer.write(String.format("%d,%d\n", this.nodes.size(), links.size()));
+		writer.write(String.format("%d%s%d\n", this.nodes.size(), delim, links.size()));
 		for (int k: this.nodes.keySet())
 		{
 			if (this.nodeT() == GraphConstructionParameters.NodeType.ELLIPSE)
 			{
 				Ellipse e = (Ellipse) this.nodes.get(k);
-				writer.write(String.format("%d,%g,%g,%g,%g,%g\n", k, e.mu()[0], e.mu()[1],
-								e.rad()[0], e.rad()[1], e.phi()));
+				writer.write(String.format("%d%s%g%s%g%s%g%s%g%s%g\n", k, delim, e.mu()[0],
+						delim, e.mu()[1], delim, e.rad()[0], delim, e.rad()[1], delim, e.phi()));
 			}
 			else
 			{
@@ -103,8 +103,8 @@ public class Graph
 				writer.write(String.format("%d", k));
 				for (final Coordinate coord: p.poly().getCoordinates())
 				{
-					writer.write(String.format(" %g,%g", coord.getOrdinate(0),
-							coord.getOrdinate(1)));
+					writer.write(String.format(" %g%s%g", coord.getOrdinate(0),
+							delim, coord.getOrdinate(1)));
 				}
 				writer.write("\n");
 			}
