@@ -51,7 +51,7 @@ public class GridEstimatorParameters extends WellEstimatorParameters
 	{
 		return super.toString() +
 			   "_dxDrift:" + Utils.rmTrail0(String.format("%g", this.dx)) +
-			   "_driftNpts:" + Utils.rmTrail0(String.format("%d", this.driftNptsTh)) +
+			   "_driftNpts:" + String.format("%d", this.driftNptsTh) +
 			   "_minCells:" + String.format("%d", this.minCellsTh) +
 			   "_DIn:" + String.format("%d", this.diffInWell? 1: 0) +
 			   "_corrDrift:" + String.format("%d", this.correctField? 1: 0);
