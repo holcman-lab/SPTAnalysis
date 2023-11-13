@@ -1,3 +1,5 @@
+![SPTAnalysis logo](https://github.com/holcman-lab/SPTAnalysis/blob/main/src/main/resources/plugin_logo.png)
+
 # SPTanalysis
 SPTanalysis plugin for advanced analysis single-particle trajectories in ImageJ
 
