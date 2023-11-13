@@ -4,5 +4,5 @@ import fiji.plugin.SPTAnalysis.struct.TrajectoryEnsemble;
 
 public abstract class TrajectoryReader
 {
-	public abstract TrajectoryEnsemble read();
+	public abstract TrajectoryEnsemble read() throws Exception;
 }

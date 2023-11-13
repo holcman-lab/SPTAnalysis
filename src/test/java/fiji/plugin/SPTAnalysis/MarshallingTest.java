@@ -289,7 +289,12 @@ public class MarshallingTest
 
 		CSVReaderOptions csvOpts = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0.0, false, 0.0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvOpts);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, 0.2,
 				5, 4, false, false);
@@ -1357,7 +1362,12 @@ public class MarshallingTest
 
 		CSVReaderOptions csvOpts = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0.0, false, 0.0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvOpts);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		double dx = 0.2;
 		WellEstimatorParameters estPs = new MLEEstimatorParameters(WellEstimator.type.MLE);

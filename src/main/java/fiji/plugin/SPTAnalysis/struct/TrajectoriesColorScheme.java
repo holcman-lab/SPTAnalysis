@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
-import fiji.plugin.SPTAnalysis.visualization.InterpolatePaintScale;
+import fiji.plugin.SPTAnalysis.external.InterpolatePaintScale;
 
 public class TrajectoriesColorScheme
 {

@@ -3,9 +3,7 @@ package fiji.plugin.SPTAnalysis;
 import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -163,16 +161,6 @@ public class FilterSeedsTest
 		catch (IOException e1)
 		{
 			e1.printStackTrace();
-		}
-
-		try {
-			BufferedWriter bfw = new BufferedWriter(new FileWriter("/tmp/dens_map.csv"));
-			bfw.write(dens.dump());
-			bfw.newLine();
-			bfw.close();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
 		}
 
 		ArrayList<int[]> seeds = Utils.highest_density_cells(dens, 5);

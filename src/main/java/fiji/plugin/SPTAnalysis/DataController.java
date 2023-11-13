@@ -50,6 +50,7 @@ public class DataController
 	private String filename;
 	private TimeWindows timeWins;
 	private TrajectoryEnsembleWindows base_trajs;
+	private double pxsize;
 
 	private int traj_min_size;
 	private MyPolygon traj_region;
@@ -79,8 +80,9 @@ public class DataController
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			res = (DataController) jaxbUnmarshaller.unmarshal(inFile);
 		}
-		catch (JAXBException e)
+		catch (Exception e)
 		{
+			System.out.println("Error loading plugin file, are you sure this is a plug file?");
 			e.printStackTrace();
 		}
 
@@ -100,6 +102,7 @@ public class DataController
 		this.filename = "";
 
 		this.base_trajs = null;
+		this.pxsize = Double.NaN;
 		this.traj_min_size = 0;
 		this.traj_region = null;
 
@@ -111,10 +114,11 @@ public class DataController
 		this.analysis_name_cnt = 0;
 	}
 
-	public void attachTrajs(String filename, TrajectoryEnsembleWindows te, TimeWindows tws)
+	public void attachTrajs(String filename, TrajectoryEnsembleWindows te, TimeWindows tws, double pxsize)
 	{
 		this.filename = filename;
 		this.base_trajs = te;
+		this.pxsize = pxsize;
 		this.trajs = this.base_trajs;
 		this.trajsFlat = this.trajs.flatten();
 		this.timeWins = tws;
@@ -217,6 +221,11 @@ public class DataController
 	public TrajectoryEnsembleWindows base_trajs()
 	{
 		return this.base_trajs;
+	}
+	
+	public double pxsize()
+	{
+		return this.pxsize;
 	}
 
 	public TrajectoryEnsemble trajsFlat()
@@ -374,6 +383,7 @@ public class DataController
 		{
 			e.printStackTrace();
 		}
+		System.out.println("Plugin export finished");
 	}
 
 	public void addWellDetection(WellDetectionParameters ps, PotWellsWindows res)
@@ -394,5 +404,11 @@ public class DataController
 	public Rectangle default_selection()
 	{
 		return new Rectangle(new double[] {0.0, 0.0}, this.trajs().maxCoords());
+	}
+
+	//ENTIRE experimental plane
+	public Rectangle base_fov()
+	{
+		return new Rectangle(new double[] {0.0, 0.0}, this.base_trajs.maxCoords());
 	}
 }

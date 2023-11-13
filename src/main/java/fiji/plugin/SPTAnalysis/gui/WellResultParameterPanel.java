@@ -315,12 +315,12 @@ public class WellResultParameterPanel extends JPanel
 		this.add(new JLabel("Ang. sim. threshold:"), cLabel);
 		this.add(new JLabel(String.valueOf(itChoosePs.angSimTh)), cData);
 
-		cLabel.gridy = starty + 1;
-		cData.gridy = starty + 1;
+		cLabel.gridy = starty + 2;
+		cData.gridy = starty + 2;
 		this.add(new JLabel("Min. bins coverage ratio:"), cLabel);
 		this.add(new JLabel(String.valueOf(itChoosePs.sampledRatioTh)), cData);
 
-		return 2;
+		return 3;
 	}
 	
 	public int initGUIItChooserParams(IterationChooser.BestMLEDeltaScore.Parameters itChoosePs,
@@ -336,6 +336,6 @@ public class WellResultParameterPanel extends JPanel
 		this.add(new JLabel("Min. slice pts:"), cLabel);
 		this.add(new JLabel(String.valueOf(itChoosePs.minSlicePtsTh)), cData);
 
-		return 1;
+		return 2;
 	}
 }

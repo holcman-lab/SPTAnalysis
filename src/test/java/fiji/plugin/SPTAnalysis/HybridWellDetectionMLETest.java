@@ -24,7 +24,12 @@ public class HybridWellDetectionMLETest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		MLEEstimatorParameters estPs = new MLEEstimatorParameters(WellEstimator.type.MLE);
 		HybridWellDetection.Parameters ps =
@@ -51,7 +56,12 @@ public class HybridWellDetectionMLETest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		MLEEstimatorParameters estPs = new MLEEstimatorParameters(WellEstimator.type.MLE);
 		HybridWellDetection.Parameters ps =
@@ -78,7 +88,12 @@ public class HybridWellDetectionMLETest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		MLEEstimatorParameters estPs = new MLEEstimatorParameters(WellEstimator.type.MLE);
 		HybridWellDetection.Parameters ps =
@@ -105,7 +120,12 @@ public class HybridWellDetectionMLETest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		MLEEstimatorParameters estPs = new MLEEstimatorParameters(WellEstimator.type.MLE);
 		HybridWellDetection.Parameters ps =

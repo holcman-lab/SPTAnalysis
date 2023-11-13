@@ -29,7 +29,12 @@ public class HybridWellDetectionTest
 
 		CSVReaderOptions csvOpts = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0.0, false, 0.0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvOpts);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		double dx = 0.2;
 		GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL,
@@ -59,7 +64,12 @@ public class HybridWellDetectionTest
 
 		CSVReaderOptions csvOpts = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0.0, false, 0.0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvOpts);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		double dx = 0.1;
 		GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, dx,
@@ -89,7 +99,12 @@ public class HybridWellDetectionTest
 
 		CSVReaderOptions csvOpts = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0.0, false, 0.0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvOpts);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		double dx = 0.1;
 		GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, dx,
@@ -119,7 +134,12 @@ public class HybridWellDetectionTest
 		String fname = ClassLoader.getSystemResource("trajectories/sample_data_well.csv").getFile();
 
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, CSVReaderOptions.trackmateOptions());
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, 0.3,
 				5, 4, false, false);
@@ -151,7 +171,12 @@ public class HybridWellDetectionTest
 		String fname = ClassLoader.getSystemResource("trajectories/sample_data_well.csv").getFile();
 
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, CSVReaderOptions.trackmateOptions());
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, 0.25,
 				5, 4, false, false);
@@ -176,7 +201,12 @@ public class HybridWellDetectionTest
 		String fname = ClassLoader.getSystemResource("trajectories/sample_data_well.csv").getFile();
 
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, CSVReaderOptions.trackmateOptions());
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, 0.15,
 				5, 4, true, false);
@@ -210,7 +240,12 @@ public class HybridWellDetectionTest
 		String fname = ClassLoader.getSystemResource("trajectories/sample_data_well.csv").getFile();
 
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, CSVReaderOptions.trackmateOptions());
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, 0.1,
 				5, 4, false, false);
@@ -245,7 +280,12 @@ public class HybridWellDetectionTest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		{
 			GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, 0.1,
@@ -439,7 +479,12 @@ public class HybridWellDetectionTest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		{
 			GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, 0.1,
@@ -587,7 +632,12 @@ public class HybridWellDetectionTest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		{
 			GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, 0.1,
@@ -736,7 +786,12 @@ public class HybridWellDetectionTest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		{
 			GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, 0.1,
@@ -885,7 +940,12 @@ public class HybridWellDetectionTest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		{
 			GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, 0.15,
@@ -1097,7 +1157,12 @@ public class HybridWellDetectionTest
 
 		CSVReaderOptions csvOpts = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0.0, false, 0.0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvOpts);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		WellEstimatorParameters estPs = new MLEEstimatorParameters(WellEstimator.type.MLE);
 		IterationChooser.Parameters itChoosePs =

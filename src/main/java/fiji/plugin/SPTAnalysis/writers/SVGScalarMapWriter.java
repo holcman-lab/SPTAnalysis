@@ -4,8 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.jfree.chart.renderer.InterpolatePaintScale;
-
+import fiji.plugin.SPTAnalysis.external.InterpolatePaintScale;
 import fiji.plugin.SPTAnalysis.struct.ScalarMap;
 
 public class SVGScalarMapWriter extends SVGWriter

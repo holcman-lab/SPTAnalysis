@@ -27,7 +27,12 @@ public class HybridWellDetectionMultiscaleTest
 		String fname = ClassLoader.getSystemResource("trajectories/sample_data_well.csv").getFile();
 
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, CSVReaderOptions.trackmateOptions());
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, Double.NaN,
 				5, 4, false, false);
@@ -60,7 +65,12 @@ public class HybridWellDetectionMultiscaleTest
 		String fname = ClassLoader.getSystemResource("trajectories/sample_data_well.csv").getFile();
 
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, CSVReaderOptions.trackmateOptions());
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, Double.NaN,
 				5, 4, false, false);
@@ -93,7 +103,12 @@ public class HybridWellDetectionMultiscaleTest
 		String fname = ClassLoader.getSystemResource("trajectories/sample_data_well.csv").getFile();
 
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, CSVReaderOptions.trackmateOptions());
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, Double.NaN,
 				5, 4, false, false);
@@ -126,7 +141,12 @@ public class HybridWellDetectionMultiscaleTest
 		String fname = ClassLoader.getSystemResource("trajectories/sample_data_well.csv").getFile();
 
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, CSVReaderOptions.trackmateOptions());
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, Double.NaN,
 				5, 4, true, false);
@@ -161,7 +181,12 @@ public class HybridWellDetectionMultiscaleTest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		{
 			GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, Double.NaN,
@@ -310,7 +335,12 @@ public class HybridWellDetectionMultiscaleTest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		{
 			GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, Double.NaN, 5, 4, false, false);
@@ -504,7 +534,12 @@ public class HybridWellDetectionMultiscaleTest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		{
 			GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, Double.NaN, 5, 4, false, false);
@@ -650,7 +685,12 @@ public class HybridWellDetectionMultiscaleTest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		{
 			GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, Double.NaN, 5, 4, false, false);
@@ -795,7 +835,12 @@ public class HybridWellDetectionMultiscaleTest
 
 		CSVReaderOptions csvo = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0, false, 0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvo);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		{
 			GridEstimatorParameters estPs = new GridEstimatorParameters(WellEstimator.type.LSQELL, Double.NaN, 5, 4, false, false);

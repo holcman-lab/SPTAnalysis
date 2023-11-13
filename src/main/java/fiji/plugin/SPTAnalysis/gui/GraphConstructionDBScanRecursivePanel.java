@@ -93,7 +93,7 @@ public class GraphConstructionDBScanRecursivePanel extends GraphConstructionPara
 
 		cLabel.gridy = 1;
 		cData.gridy = 1;
-		this.add(new JLabel("Start core dist. (R, µm)"), cLabel);
+		this.add(new JLabel("Max. core dist. (R, µm)"), cLabel);
 		this.add(this.RMaxPanel, cData);
 
 		cLabel.gridy = 2;
@@ -103,12 +103,12 @@ public class GraphConstructionDBScanRecursivePanel extends GraphConstructionPara
 
 		cLabel.gridy = 3;
 		cData.gridy = 3;
-		this.add(new JLabel("End core dist. (R, µm)"), cLabel);
+		this.add(new JLabel("Min. core dist. (R, µm)"), cLabel);
 		this.add(this.RMinPanel, cData);
 
 		cLabel.gridy = 4;
 		cData.gridy = 4;
-		this.add(new JLabel("Start num. neighb. pts. (N)"), cLabel);
+		this.add(new JLabel("Min. num. neighb. pts. (N)"), cLabel);
 		this.add(this.NMinPanel, cData);
 
 		cLabel.gridy = 5;
@@ -118,7 +118,7 @@ public class GraphConstructionDBScanRecursivePanel extends GraphConstructionPara
 
 		cLabel.gridy = 6;
 		cData.gridy = 6;
-		this.add(new JLabel("End num. neighb. pts. (N)"), cLabel);
+		this.add(new JLabel("Max. num. neighb. pts. (N)"), cLabel);
 		this.add(this.NMaxPanel, cData);
 	}
 

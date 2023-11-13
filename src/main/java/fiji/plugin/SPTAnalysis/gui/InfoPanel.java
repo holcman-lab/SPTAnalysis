@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import fiji.plugin.SPTAnalysis.DataController;
+import fiji.plugin.SPTAnalysis.GUIController;
+import fiji.plugin.SPTAnalysis.readers.CSVReaderOptions;
 
 public class InfoPanel extends JPanel
 {
@@ -58,7 +60,7 @@ public class InfoPanel extends JPanel
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
 		cLabel.gridy = 2;
-		this.add(new JLabel("Time-windows"), cLabel);
+		this.add(GUIController.newBoldLabel("Time-windows"), cLabel);
 
 		cLabel.gridy = 3;
 		cData.gridy = 3;
@@ -71,6 +73,25 @@ public class InfoPanel extends JPanel
 		this.add(new JLabel(String.valueOf(dctrl.timeWindows().overlap())), cData);
 
 		c.gridy = 5;
+		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
+
+		cLabel.gridy = 6;
+		this.add(GUIController.newBoldLabel("Acquisition setup"), cLabel);
+
+		cLabel.gridy = 7;
+		cData.gridy = 7;
+		this.add(new JLabel("Pixel Size (μm)"), cLabel);
+		if (Double.isNaN(this.dctrl.pxsize()))
+			this.add(new JLabel("?"), cData);
+		else
+			this.add(new JLabel(String.format("%g", this.dctrl.pxsize())), cData);
+
+		cLabel.gridy = 8;
+		cData.gridy = 8;
+		this.add(new JLabel("Acquisition time (s)"), cLabel);
+		this.add(new JLabel(String.format("%g", dctrl.trajs().wins.get(0).acqDT())), cData);
+
+		c.gridy = 9;
 		this.add(new JLabel(""), c);
 	}
 }

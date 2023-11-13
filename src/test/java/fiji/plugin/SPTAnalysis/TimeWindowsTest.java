@@ -110,7 +110,12 @@ public class TimeWindowsTest
 
 		CSVReaderOptions csvOpts = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0.0, false, 0.0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvOpts);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		TimeWindows tw = new TimeWindows(trajs, 0.2, 0.1);
 
@@ -129,7 +134,12 @@ public class TimeWindowsTest
 
 		CSVReaderOptions csvOpts = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0.0, false, 0.0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvOpts);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		TimeWindows tw = new TimeWindows(trajs, 0.1, 0.5);
 
@@ -148,7 +158,13 @@ public class TimeWindowsTest
 
 		CSVReaderOptions csvOpts = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0.0, false, 0.0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvOpts);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		double[] ti = trajs.time_interval();
 
 		TimeWindows tw = TimeWindows.singleWindow(trajs);

@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.scijava.ui.UIService;
 
+import com.itextpdf.text.Font;
 import com.vividsolutions.jts.geom.CoordinateSequence;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
@@ -23,6 +25,7 @@ import fiji.plugin.SPTAnalysis.gui.GraphConstructionParametersSelectionPanel;
 import fiji.plugin.SPTAnalysis.gui.GraphResultPanel;
 import fiji.plugin.SPTAnalysis.gui.GraphResultParameterPanel;
 import fiji.plugin.SPTAnalysis.gui.HistogramPanel;
+import fiji.plugin.SPTAnalysis.gui.InputPanel;
 import fiji.plugin.SPTAnalysis.gui.MainPanel;
 import fiji.plugin.SPTAnalysis.gui.SavePanel;
 import fiji.plugin.SPTAnalysis.gui.WellDetectionParametersSelectionPanel;
@@ -87,6 +90,13 @@ public class GUIController
 
 	@XmlTransient
 	private AnalysisParameters curResults;
+
+	public static JLabel newBoldLabel(String text)
+	{
+		JLabel l = new JLabel(text);
+		l.setFont(l.getFont().deriveFont(Font.BOLD));
+		return l;
+	}
 
 	public GUIController(UIService uiserv, DataController dcntrl, ImagePlus imp)
 	{
@@ -572,13 +582,30 @@ public class GUIController
 	public MyPolygon getPolygon()
 	{
 		Roi sel = this.imp.getRoi();
+		GeometryFactory geo_facto = new GeometryFactory();
+		//Pierre: this fixes a crash if you click on "GO" button in Trajs.
+		//Filter when now polygon has been defined
+		//also allows to reset trajectories to then entire FOV when no region
+		//is selected
+		if (sel == null)
+		{
+			//return this.dcntrl.traj_region();
+			Rectangle rec = this.dcntrl.base_fov();
+			CoordinateSequence cse =
+					geo_facto.getCoordinateSequenceFactory().create(5, 2);
+			cse.setOrdinate(0, 0, rec.ll()[0]); cse.setOrdinate(0, 1, rec.ll()[1]);
+			cse.setOrdinate(1, 0, rec.tr()[0]); cse.setOrdinate(1, 1, rec.ll()[1]);
+			cse.setOrdinate(2, 0, rec.tr()[0]); cse.setOrdinate(2, 1, rec.tr()[1]);
+			cse.setOrdinate(3, 0, rec.ll()[0]); cse.setOrdinate(3, 1, rec.tr()[1]);
+			cse.setOrdinate(4, 0, rec.ll()[0]); cse.setOrdinate(4, 1, rec.ll()[1]);
+			return new MyPolygon(geo_facto.createPolygon(cse));
+		}
 
 		double pw = this.imp.getCalibration().pixelWidth;
 		double ph = this.imp.getCalibration().pixelHeight;
 
-		GeometryFactory geo_facto = new GeometryFactory();
-
 		Polygon sel_poly = sel.getPolygon();
+
 		CoordinateSequence cse =
 				geo_facto.getCoordinateSequenceFactory().create(sel_poly.xpoints.length+1, 2);
 		int i = 0;

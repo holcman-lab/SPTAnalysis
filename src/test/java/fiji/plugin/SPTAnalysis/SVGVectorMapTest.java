@@ -23,7 +23,12 @@ public class SVGVectorMapTest
 
 		CSVReaderOptions csvOpts = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0.0, false, 0.0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvOpts);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		double dx = 0.1;
 		SquareGrid g = new SquareGrid(0.1, new double[] {10.0, 10.0}, 6);
@@ -72,7 +77,13 @@ public class SVGVectorMapTest
 
 		CSVReaderOptions csvOpts = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0.0, false, 0.0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvOpts);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		TrajectoryEnsembleWindows trajsw = new TrajectoryEnsembleWindows();
 		trajsw.wins.add(trajs);
 

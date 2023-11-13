@@ -1,19 +1,21 @@
-package fiji.plugin.SPTAnalysis.visualization;
+package fiji.plugin.SPTAnalysis.external;
 
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.jfree.chart.renderer.PaintScale;
+
 /**
- * Integrated from Trackmate for dependency pusposes
  * This class implements a {@link PaintScale} that generate colors interpolated 
  * within a list of given color, using a linear scale.
  * @author Jean-Yves Tinevez &lt;jeanyves.tinevez@gmail.com&gt; - Sept 2010
+ * 
+ * PIERRE: copied here for compatibility issues, need to find a better solution.
  */
-public class InterpolatePaintScale implements Serializable
+public class InterpolatePaintScale implements PaintScale, Serializable
 {
-
 	private static final long serialVersionUID = 2977884191627862512L;
 	private static final Color DEFAULT_COLOR = Color.BLACK;
 	private final double lowerBound;
@@ -30,8 +32,7 @@ public class InterpolatePaintScale implements Serializable
 	 * blue to red to the range [0, 1].
 	 */
 	public static final InterpolatePaintScale Jet;
-	static
-	{
+	static {
 		Jet = new InterpolatePaintScale(0, 1);
 		Jet.add(0.00, new Color(0.0f, 0.0f, 1.0f));
 		Jet.add(0.16, new Color(0.0f, 0.5f, 1.0f));
@@ -87,8 +88,8 @@ public class InterpolatePaintScale implements Serializable
 	}
 
 
-	public double getLowerBound()
-	{
+	@Override
+	public double getLowerBound() {
 		return lowerBound;
 	}
 
@@ -97,11 +98,11 @@ public class InterpolatePaintScale implements Serializable
 	 * The interpolation is a linear one between the two colors in the list 
 	 * whose associated values frame the one given.
 	 */
-	public Color getPaint(double value)
-	{
+	@Override
+	public Color getPaint(double value) {
 		if (colors.isEmpty()) return defaultColor;
 		if (colors.size() == 1) return colors.get(colors.firstKey());
-
+		
 		if (value > upperBound)
 			value = upperBound;
 		if (value < lowerBound)
@@ -116,13 +117,13 @@ public class InterpolatePaintScale implements Serializable
 			
 			bottom = top;
 		}
-
+		
 		double alpha;
 		if (top == bottom)
 			alpha = 0; // we reached the end of the list
 		else
 			alpha = (value-bottom) / (top - bottom);
-
+		
 		final Color colorBottom = colors.get(bottom);
 		final Color colorTop = colors.get(top);
 		final int red 	= (int) ((1-alpha) * colorBottom.getRed() + alpha * colorTop.getRed());
@@ -131,17 +132,16 @@ public class InterpolatePaintScale implements Serializable
 		return new Color(red, green, blue);
 	}
 
-	public double getUpperBound()
-	{
+	@Override
+	public double getUpperBound() {
 		return upperBound;
 	}
-
-	public InterpolatePaintScale clone()
-	{
+	
+	@Override
+	public InterpolatePaintScale clone() {
 		final InterpolatePaintScale ips = new InterpolatePaintScale(lowerBound, upperBound);
 		for(final double key : colors.keySet())
 			ips.add(key, colors.get(key));
 		return ips;
 	}
-
 }

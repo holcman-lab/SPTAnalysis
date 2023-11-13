@@ -15,7 +15,7 @@
 
   <groupId>com.SPTAnalysis.app</groupId>
   <artifactId>SPTAnalysis</artifactId>
-  <version>1.3</version>
+  <version>1.4</version>
 
   <name>SPTAnalysis</name>
   <description>SPT analysis</description>
@@ -103,11 +103,6 @@
     <dependency>
       <groupId>org.scijava</groupId>
       <artifactId>j3dcore</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>net.imagej</groupId>
-      <artifactId>imagej</artifactId>
     </dependency>
 
     <dependency>

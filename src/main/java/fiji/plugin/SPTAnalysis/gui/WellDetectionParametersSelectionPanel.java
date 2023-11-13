@@ -189,7 +189,8 @@ public class WellDetectionParametersSelectionPanel extends AnalysisParametersPan
 
 		cLabel.gridy = 2;
 		cData.gridy = 2;
-		this.add(new JLabel("Detection algorithm"), cLabel);
+		this.add(GUIController.newBoldLabel("Detection algorithm"), cLabel);
+
 		this.add(this.algoChoicePanel, cData);
 
 		{
@@ -213,7 +214,7 @@ public class WellDetectionParametersSelectionPanel extends AnalysisParametersPan
 		}
 
 		cLabel.gridy = 5;
-		this.add(new JLabel("Well linking"), cLabel);
+		this.add(GUIController.newBoldLabel("Well linking"), cLabel);
 		
 		{
 			GridBagConstraints c = new GridBagConstraints();

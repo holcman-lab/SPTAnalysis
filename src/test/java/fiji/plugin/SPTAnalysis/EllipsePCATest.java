@@ -24,7 +24,12 @@ public class EllipsePCATest
 
 		CSVReaderOptions csvOpts = new CSVReaderOptions(",", 0, 1, 2, 3, false, 0, 0, false, 0.0, false, 0.0);
 		TrajectoryCSVReader reader = new TrajectoryCSVReader(fname, csvOpts);
-		TrajectoryEnsemble trajs = reader.read();
+		TrajectoryEnsemble trajs = null;
+		try {
+			trajs = reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		ArrayList<double[]> pts = Utils.pointsInReg(trajs, new Rectangle(new double[] {10.0, 10.0}, 10.0));
 		double[][] tmp = pts.toArray(new double[pts.size()][2]);

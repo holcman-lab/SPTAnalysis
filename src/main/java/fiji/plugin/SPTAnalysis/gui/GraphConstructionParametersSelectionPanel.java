@@ -313,7 +313,7 @@ public class GraphConstructionParametersSelectionPanel extends AnalysisParameter
 
 		cLabel.gridy = 4;
 		cData.gridy = 4;
-		this.add(new JLabel("Construction algorithm"), cLabel);
+		this.add(GUIController.newBoldLabel("Construction algorithm"), cLabel);
 		this.add(this.algoChoicePanel, cData);
 
 		c.gridy = 5;
@@ -324,7 +324,7 @@ public class GraphConstructionParametersSelectionPanel extends AnalysisParameter
 
 		cLabel.gridy = 7;
 		cData.gridy = 7;
-		this.add(new JLabel("Nodes shape"), cLabel);
+		this.add(GUIController.newBoldLabel("Nodes shape"), cLabel);
 		this.add(this.nodeTypeChoicePanel, cData);
 
 		c.gridy = 8;

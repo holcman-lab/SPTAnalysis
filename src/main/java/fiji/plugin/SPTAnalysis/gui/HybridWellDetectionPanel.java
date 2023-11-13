@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JSeparator;
 
 import fiji.plugin.SPTAnalysis.DataController;
+import fiji.plugin.SPTAnalysis.GUIController;
 import fiji.plugin.SPTAnalysis.estimators.WellEstimatorParameters;
 import fiji.plugin.SPTAnalysis.wellDetection.HybridWellDetection;
 import fiji.plugin.SPTAnalysis.wellDetection.IterationChooser;
@@ -257,7 +258,7 @@ public class HybridWellDetectionPanel extends WellDetectionParametersPanel
 
 		cLabel.gridy = ymin + 10;
 		cData.gridy = ymin + 10;
-		this.add(new JLabel("Estimator"), cLabel);
+		this.add(GUIController.newBoldLabel("Estimator"), cLabel);
 		this.add(this.estimatorChoice, cData);
 
 		c.gridy = ymin + 11;
@@ -270,7 +271,7 @@ public class HybridWellDetectionPanel extends WellDetectionParametersPanel
 		
 		cLabel.gridy = ymin + 13;
 		cData.gridy = ymin + 13;
-		this.add(new JLabel("Iteration scoring"), cLabel);
+		this.add(GUIController.newBoldLabel("Iteration scoring"), cLabel);
 		this.add(this.itChooserChoice, cData);
 
 		c.gridy = ymin + 14;

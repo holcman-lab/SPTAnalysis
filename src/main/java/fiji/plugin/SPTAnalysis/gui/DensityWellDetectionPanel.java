@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JSeparator;
 
 import fiji.plugin.SPTAnalysis.DataController;
+import fiji.plugin.SPTAnalysis.GUIController;
 import fiji.plugin.SPTAnalysis.estimators.WellEstimatorParameters;
 import fiji.plugin.SPTAnalysis.wellDetection.DensityWellDetection;
 import fiji.plugin.SPTAnalysis.wellDetection.IterationChooser;
@@ -198,7 +199,7 @@ public class DensityWellDetectionPanel extends WellDetectionParametersPanel
 		c.insets = new Insets(0, 10, 0, 10);
 
 		cLabel.gridy = 10;
-		this.add(new JLabel("Estimator parameters"), cLabel);
+		this.add(GUIController.newBoldLabel("Estimator parameters"), cLabel);
 
 		c.gridy = 11;
 		this.add(this.estParamsPanel, c);

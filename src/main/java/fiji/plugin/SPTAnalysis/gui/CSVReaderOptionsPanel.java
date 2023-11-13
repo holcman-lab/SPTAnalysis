@@ -63,7 +63,7 @@ public class CSVReaderOptionsPanel extends JPanel
 		this.unitIsPxField = new JCheckBox();
 
 		this.pxSizeField = new JFormattedTextField(new DecimalFormat("0.000"));
-		this.pxSizeField.setValue(new Double(0.0));
+		this.pxSizeField.setValue(Double.NaN);
 		this.pxSizeField.setEnabled(false);
 
 		this.unitIsFrameField = new JCheckBox();

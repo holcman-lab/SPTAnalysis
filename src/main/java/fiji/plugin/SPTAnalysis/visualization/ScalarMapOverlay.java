@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Iterator;
 
+import fiji.plugin.SPTAnalysis.external.InterpolatePaintScale;
 import fiji.plugin.SPTAnalysis.struct.ScalarMapWindows;
 import fiji.plugin.trackmate.util.TMUtils;
 import ij.ImagePlus;

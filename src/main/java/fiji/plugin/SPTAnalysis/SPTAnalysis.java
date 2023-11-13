@@ -135,18 +135,27 @@ public class SPTAnalysis implements Command
 	public void loadRawTrajectories(String path, CSVReaderOptions csvo)
 	{
 		TrajectoryCSVReader read = new TrajectoryCSVReader(path, csvo);
-
 		TimeWindows tws = null;
-		TrajectoryEnsemble trajs = read.read();
-		if (this.inPanel.useTimeWindow())
-			tws = new TimeWindows(trajs, this.inPanel.timeWindowDuration(),
-					this.inPanel.timeWindowOverlap());
-		else
-			tws = TimeWindows.singleWindow(trajs);
 
-		this.dcntrl().attachTrajs(path, new TrajectoryEnsembleWindows(trajs, tws), tws);
+		try
+		{
+			TrajectoryEnsemble trajs = read.read();
+			if (this.inPanel.useTimeWindow())
+				tws = new TimeWindows(trajs, this.inPanel.timeWindowDuration(),
+						this.inPanel.timeWindowOverlap());
+			else
+				tws = TimeWindows.singleWindow(trajs);
 
-		launchApp();
+			this.dcntrl().attachTrajs(path, new TrajectoryEnsembleWindows(trajs, tws), tws,
+					this.inPanel.getCSVReaderOptions().pxSize());
+
+			launchApp();
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error loading file, please verify the format");
+			e.printStackTrace();
+		}
 	}
 
 	public DataController dcntrl()

@@ -430,7 +430,7 @@ public class DisplayPanel  extends JPanel
 		cData.insets = new Insets(10, 15, 0, 10);
 
 		cLabel.gridy = 0;
-		this.add(new JLabel("Show"), cLabel);
+		this.add(GUIController.newBoldLabel("Show"), cLabel);
 
 		cLabel.gridy = 1;
 		this.add(this.trajsDispPan, cLabel);
@@ -454,7 +454,7 @@ public class DisplayPanel  extends JPanel
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
 		cLabel.gridy = 6;
-		this.add(new JLabel("Trajectory Options"), cLabel);
+		this.add(GUIController.newBoldLabel("Trajectory Options"), cLabel);
 
 		cLabel.gridy = 7;
 		cData.gridy = 7;
@@ -472,7 +472,7 @@ public class DisplayPanel  extends JPanel
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
 		cLabel.gridy = 10;
-		this.add(new JLabel("Density Map Options"), cLabel);
+		this.add(GUIController.newBoldLabel("Density Map Options"), cLabel);
 
 		cLabel.gridy = 11;
 		cData.gridy = 11;
@@ -494,7 +494,7 @@ public class DisplayPanel  extends JPanel
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
 		cLabel.gridy = 15;
-		this.add(new JLabel("Diffusion map options"), cLabel);
+		this.add(GUIController.newBoldLabel("Diffusion map options"), cLabel);
 
 		cLabel.gridy = 16;
 		cData.gridy = 16;
@@ -520,7 +520,7 @@ public class DisplayPanel  extends JPanel
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
 		cLabel.gridy = 21;
-		this.add(new JLabel("Drift map options"), cLabel);
+		this.add(GUIController.newBoldLabel("Drift map options"), cLabel);
 
 		cLabel.gridy = 22;
 		cData.gridy = 22;
@@ -552,7 +552,7 @@ public class DisplayPanel  extends JPanel
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
 		cLabel.gridy = 28;
-		this.add(new JLabel("Time-windows options"), cLabel);
+		this.add(GUIController.newBoldLabel("Time-windows options"), cLabel);
 
 		cLabel.gridy = 29;
 		cData.gridy = 29;
@@ -563,7 +563,7 @@ public class DisplayPanel  extends JPanel
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
 		cLabel.gridy = 31;
-		this.add(new JLabel("Potential wells options"), cLabel);
+		this.add(GUIController.newBoldLabel("Potential wells options"), cLabel);
 
 		cLabel.gridy = 32;
 		cData.gridy = 32;
@@ -574,7 +574,7 @@ public class DisplayPanel  extends JPanel
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
 		cLabel.gridy = 34;
-		this.add(new JLabel("Scale bar options"), cLabel);
+		this.add(GUIController.newBoldLabel("Scale bar options"), cLabel);
 
 		cLabel.gridy = 35;
 		cData.gridy = 35;

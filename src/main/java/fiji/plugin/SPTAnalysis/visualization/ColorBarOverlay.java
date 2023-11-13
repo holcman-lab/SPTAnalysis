@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import fiji.plugin.SPTAnalysis.external.InterpolatePaintScale;
 import fiji.plugin.trackmate.util.TMUtils;
 import ij.ImagePlus;
 import ij.gui.Roi;

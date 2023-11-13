@@ -23,6 +23,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -242,7 +243,7 @@ public class InputPanel extends JPanel
 
 				selected = inputFormatField.getSelectedItem();
 
-				int cpt = 6;
+				int cpt = 7;
 				for (Component jp: inputOptionsPanel.get(selected))
 				{
 					{
@@ -277,12 +278,23 @@ public class InputPanel extends JPanel
 			c.gridy = 0;
 			c.gridwidth = 2;
 			c.insets = new Insets(10, 10, 0, 10);
+			ImageIcon image = new ImageIcon(ClassLoader.getSystemResource("plugin_logo.png"));
+			JLabel imgLab = new JLabel(image);
+			add(imgLab, c);
+		}
+
+		{
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridy = 1;
+			c.gridwidth = 2;
+			c.insets = new Insets(10, 10, 0, 10);
 			this.add(this.introText, c);
 		}
 
 		{
 			GridBagConstraints c = new GridBagConstraints();
-			c.gridy = 1;
+			c.gridy = 2;
 			c.gridwidth = 2;
 			c.anchor = GridBagConstraints.WEST;
 			c.insets = new Insets(2, 10, 0, 10);
@@ -293,7 +305,7 @@ public class InputPanel extends JPanel
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 1;
-			c.gridy = 2;
+			c.gridy = 3;
 			c.gridwidth = GridBagConstraints.REMAINDER;
 			c.insets = new Insets(5, 10, 0, 10);
 			add(new JSeparator(JSeparator.HORIZONTAL), c);
@@ -303,7 +315,7 @@ public class InputPanel extends JPanel
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0.5;
-			c.gridy = 3;
+			c.gridy = 4;
 			c.insets = new Insets(5, 10, 0, 0);
 			this.add(new JLabel("Load from"), c);
 		}
@@ -312,7 +324,7 @@ public class InputPanel extends JPanel
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0.5;
-			c.gridy = 3;
+			c.gridy = 4;
 			c.gridwidth = GridBagConstraints.REMAINDER;
 			c.insets = new Insets(5, 0, 0, 10);
 			this.add(this.inputFormatField, c);
@@ -322,7 +334,7 @@ public class InputPanel extends JPanel
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0.5;
-			c.gridy = 4;
+			c.gridy = 5;
 			c.insets = new Insets(5, 10, 0, 0);
 			this.add(new JLabel("Choose file"), c);
 		}
@@ -331,7 +343,7 @@ public class InputPanel extends JPanel
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0.5;
-			c.gridy = 4;
+			c.gridy = 5;
 			c.gridwidth = GridBagConstraints.REMAINDER;
 			c.insets = new Insets(5, 0, 0, 10);
 			JButton compute = new JButton("File");
@@ -358,7 +370,7 @@ public class InputPanel extends JPanel
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 1;
-			c.gridy = 5;
+			c.gridy = 6;
 			c.gridwidth = GridBagConstraints.REMAINDER;
 			c.insets = new Insets(5, 10, 0, 10);
 			this.add(new JSeparator(JSeparator.HORIZONTAL), c);
@@ -369,7 +381,7 @@ public class InputPanel extends JPanel
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 1;
 			c.gridwidth = GridBagConstraints.REMAINDER;
-			c.gridy = 10;
+			c.gridy = 11;
 			c.insets = new Insets(5, 10, 0, 10);
 			this.loadButton = new JButton("LOAD");
 			this.loadButton.setEnabled(false);
@@ -397,6 +409,11 @@ public class InputPanel extends JPanel
 			c.weighty = 1;
 			this.add(new JPanel(), c);
 		}
+	}
+
+	public CSVReaderOptions getCSVReaderOptions()
+	{
+		return this.csvOptsPanel.getOptions();
 	}
 
 	public boolean useTimeWindow()

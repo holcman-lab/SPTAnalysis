@@ -4,10 +4,10 @@ public class CSVReaderOptions
 {
 	private String delim;
 
-	private int idPos = 2;
-	private int tPos = 7;
-	private int xPos = 4;
-	private int yPos = 5;
+	private int idPos;
+	private int tPos;
+	private int xPos;
+	private int yPos;
 
 	boolean hasZ = false;
 	private Integer zPos;
