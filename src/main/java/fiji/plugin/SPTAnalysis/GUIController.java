@@ -25,7 +25,6 @@ import fiji.plugin.SPTAnalysis.gui.GraphConstructionParametersSelectionPanel;
 import fiji.plugin.SPTAnalysis.gui.GraphResultPanel;
 import fiji.plugin.SPTAnalysis.gui.GraphResultParameterPanel;
 import fiji.plugin.SPTAnalysis.gui.HistogramPanel;
-import fiji.plugin.SPTAnalysis.gui.InputPanel;
 import fiji.plugin.SPTAnalysis.gui.MainPanel;
 import fiji.plugin.SPTAnalysis.gui.SavePanel;
 import fiji.plugin.SPTAnalysis.gui.WellDetectionParametersSelectionPanel;

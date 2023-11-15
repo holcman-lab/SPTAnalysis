@@ -45,10 +45,12 @@ public class SVGWellsWriter extends SVGWriter
 		double[] minEll = new double[] {Double.NaN, Double.NaN};
 		if (this.wells.length == 0)
 			return minEll;
-		minEll = new double[] {this.wells[0].ell().minPt()[0] * this.zoomFactor, this.wells[0].ell().minPt()[1] * this.zoomFactor};
+		minEll = new double[] {this.wells[0].ell().minPt()[0],
+							   this.wells[0].ell().minPt()[1]};
 		for (int i = 1; i < this.wells.length; ++i)
 		{
-			double[] tmp = new double[] {this.wells[i].ell().minPt()[0] * this.zoomFactor, this.wells[i].ell().minPt()[1] * this.zoomFactor};
+			double[] tmp = new double[] {this.wells[i].ell().minPt()[0],
+										 this.wells[i].ell().minPt()[1]};
 			minEll[0] = tmp[0] < minEll[0] ? tmp[0] : minEll[0];
 			minEll[1] = tmp[1] < minEll[1] ? tmp[1] : minEll[1];
 		}
@@ -61,10 +63,12 @@ public class SVGWellsWriter extends SVGWriter
 		double[] maxEll = new double[] {Double.NaN, Double.NaN};
 		if (this.wells.length == 0)
 			return maxEll;
-		maxEll = new double[] {this.wells[0].ell().maxPt()[0], this.wells[0].ell().maxPt()[1]};
+		maxEll = new double[] {this.wells[0].ell().maxPt()[0],
+							   this.wells[0].ell().maxPt()[1]};
 		for (int i = 1; i < this.wells.length; ++i)
 		{
-			double[] tmp = new double[] {this.wells[i].ell().maxPt()[0], this.wells[i].ell().maxPt()[1]};
+			double[] tmp = new double[] {this.wells[i].ell().maxPt()[0],
+										 this.wells[i].ell().maxPt()[1]};
 			maxEll[0] = tmp[0] > maxEll[0] ? tmp[0] : maxEll[0];
 			maxEll[1] = tmp[1] > maxEll[1] ? tmp[1] : maxEll[1];
 		}

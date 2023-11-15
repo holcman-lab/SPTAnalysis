@@ -387,13 +387,13 @@ public class ScalarMap implements Iterable<double[]>
 							val = val + 0;
 						nhCnt = nhCnt + 1;
 					}
+				}
 
-					if (nhCnt > 0)
-					{
-						if (!res.containsKey(i))
-							res.put(i, new HashMap<> ());
-						res.get(i).put(j, val / nhCnt);
-					}
+				if (nhCnt > 0 && val > 0.0)
+				{
+					if (!res.containsKey(i))
+						res.put(i, new HashMap<> ());
+					res.get(i).put(j, val / nhCnt);
 				}
 			}
 		}

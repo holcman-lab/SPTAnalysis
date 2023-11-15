@@ -14,8 +14,6 @@ public class VectorMapWindows
 	public static VectorMapWindows gen_drift_maps(final TrajectoryEnsembleWindows trajsw,
 			MapParameters.DriftParameters opts)
 	{
-		System.out.println(opts.filter);
-
 		VectorMapWindows res = new VectorMapWindows();
 		for (final TrajectoryEnsemble trajs: trajsw.wins)
 		{
