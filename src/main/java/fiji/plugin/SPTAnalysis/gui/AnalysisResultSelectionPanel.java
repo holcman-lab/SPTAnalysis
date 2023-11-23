@@ -44,6 +44,9 @@ public class AnalysisResultSelectionPanel extends JPanel
 				this.cb.setSelected(false);
 			}
 
+			if (value == null)
+				return this.cb;
+
 			if (value.equals("false"))
 				this.cb.setSelected(false);
 			else
@@ -51,7 +54,7 @@ public class AnalysisResultSelectionPanel extends JPanel
 			return this.cb;
 		}
 	}
-	
+
 	public class ButtonRenderer extends DefaultTableCellRenderer
 	{
 		private static final long serialVersionUID = 1L;

@@ -4,10 +4,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.util.stream.IntStream;
 
 import fiji.plugin.SPTAnalysis.struct.Point;
 import fiji.plugin.SPTAnalysis.struct.Trajectory;
@@ -52,10 +56,9 @@ public class TrajectoryCSVReader extends TrajectoryReader
 			e1.printStackTrace();
 		}
 
-		TrajectoryEnsemble res = new TrajectoryEnsemble();
+		HashMap<Integer, ArrayList< Point > > trajs = new HashMap<> ();
 
 		int cntHead = 0;
-		Trajectory tr = new Trajectory();
 		String st;
 		while ((st = br.readLine()) != null)
 		{
@@ -67,16 +70,9 @@ public class TrajectoryCSVReader extends TrajectoryReader
 
 			String[] vals = st.split(this.csvo.delim());
 
-			Integer cur_id = Integer.valueOf(vals[this.csvo.idPos()].trim());
-			if (!cur_id.equals(tr.id()))
-			{
-				if (!tr.isEmpty())
-					res.trajs().add(tr);
-				tr = new Trajectory(cur_id);
-			}
+			Integer curId = Integer.valueOf(vals[this.csvo.idPos()].trim());
 
 			Double t = Double.valueOf(vals[this.csvo.tPos()].trim());
-
 			if (this.csvo.unitIsFrame())
 				t = t * this.csvo.dt();
 
@@ -94,13 +90,26 @@ public class TrajectoryCSVReader extends TrajectoryReader
 					z = z * this.csvo.pxSize();
 			}
 
-			tr.points().add(new Point(t, x, y, z));
+			if (!trajs.containsKey(curId))
+				trajs.put(curId, new ArrayList<> ());
+			trajs.get(curId).add(new Point(t, x, y, z));
 		}
 
-		if (!tr.isEmpty())
+		TrajectoryEnsemble res = new TrajectoryEnsemble();
+		ArrayList<Integer> allIds = new ArrayList<> (trajs.keySet());
+		Collections.sort(allIds);
+		for (Integer k: allIds)
+		{
+			int[] idxs = IntStream.range(0, trajs.get(k).size())
+				.boxed().sorted((i, j) -> Double.compare(trajs.get(k).get(i).t, trajs.get(k).get(j).t))
+				.mapToInt(ele -> ele).toArray();
+
+			Trajectory tr = new Trajectory(k);
+			for (int i: idxs)
+				tr.points().add(trajs.get(k).get(i));
+
 			res.trajs().add(tr);
-
-
+		}
 
 		logger.info(String.valueOf("  " + res.trajs().size()) + " trajectories");
 		return res;
