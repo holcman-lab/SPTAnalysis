@@ -70,6 +70,12 @@ public class GUIController
 	private HashMap<MapParameters.DiffusionParameters, JFrame> diffHistFrames;
 	private HashMap<MapParameters.DiffusionParameters, HistogramPanel> diffHistPanels;
 
+	private HashMap<MapParameters.AnomalousDiffusionParameters, JFrame> anoDiffHistFrames;
+	private HashMap<MapParameters.AnomalousDiffusionParameters, HistogramPanel> anoDiffHistPanels;
+
+	private HashMap<MapParameters.AnomalousDiffusionParameters, JFrame> anoAlphaHistFrames;
+	private HashMap<MapParameters.AnomalousDiffusionParameters, HistogramPanel> anoAlphaHistPanels;
+
 	private JFrame instVelHistFrame;
 	private HistogramPanel instVelHistPanel;
 
@@ -197,6 +203,12 @@ public class GUIController
 
 		this.diffHistFrames = new HashMap<> ();
 		this.diffHistPanels = new HashMap<> ();
+
+		this.anoDiffHistFrames = new HashMap<> ();
+		this.anoDiffHistPanels = new HashMap<> ();
+
+		this.anoAlphaHistFrames = new HashMap<> ();
+		this.anoAlphaHistPanels = new HashMap<> ();
 
 		this.instVelHistFrame = null;
 		this.instVelHistPanel = null;
@@ -361,6 +373,40 @@ public class GUIController
 		this.diffHistFrames.get(ps).setVisible(!this.diffHistFrames.get(ps).isVisible());
 	}
 
+	public void displayAnoDiffHist(MapParameters.AnomalousDiffusionParameters ps)
+	{
+		if (!this.anoDiffHistFrames.containsKey(ps))
+		{
+			this.anoDiffHistPanels.put(ps, new HistogramPanel(this, this.dcntrl, this.dcntrl.anoDiffMaps(false).get(ps).getValues(),
+					this.dcntrl.anoDiffMaps(false).get(ps).getPositions(), this.imp.getFrame() - 1, "Anomalous coefficient", "µm²/s"));
+			JFrame frame = new JFrame();
+			frame.setTitle("Anomalous Coefficient Histogram");
+			frame.add(this.anoDiffHistPanels.get(ps));
+			frame.pack();
+			frame.setVisible(false);
+			this.anoDiffHistFrames.put(ps, frame);
+		}
+
+		this.anoDiffHistFrames.get(ps).setVisible(!this.anoDiffHistFrames.get(ps).isVisible());
+	}
+
+	public void displayAnoAlphaHist(MapParameters.AnomalousDiffusionParameters ps)
+	{
+		if (!this.anoAlphaHistFrames.containsKey(ps))
+		{
+			this.anoAlphaHistPanels.put(ps, new HistogramPanel(this, this.dcntrl, this.dcntrl.anoAlphaMaps(false).get(ps).getValues(),
+					this.dcntrl.anoAlphaMaps(false).get(ps).getPositions(), this.imp.getFrame() - 1, "Anomalous exponent", ""));
+			JFrame frame = new JFrame();
+			frame.setTitle("Anomalous Exponent");
+			frame.add(this.anoAlphaHistPanels.get(ps));
+			frame.pack();
+			frame.setVisible(false);
+			this.anoAlphaHistFrames.put(ps, frame);
+		}
+
+		this.anoAlphaHistFrames.get(ps).setVisible(!this.anoAlphaHistFrames.get(ps).isVisible());
+	}
+
 	public void displayInstVelHist()
 	{
 		if (this.instVelHistFrame == null)
@@ -429,6 +475,24 @@ public class GUIController
 				todoOverlays.put("ColorBar", new ColorBarOverlay(this.imp, "%.2f",
 						this.dcntrl.diffMapWindows(diffP, mergeWin).maxs(), this.displayPanel().mergeWindows()));
 			}
+			else if (val.equals("AnoDiffusion"))
+			{
+				MapParameters.AnomalousDiffusionParameters diffP = this.displayPanel().getAnoDiffusionParams();
+
+				todoOverlays.put("AnoDiffusion", new ScalarMapOverlay(this.imp, this.dcntrl.anoDiffMapWindows(diffP, mergeWin).get("d"),
+						this.displayPanel().mergeWindows()));
+				todoOverlays.put("ColorBar", new ColorBarOverlay(this.imp, "%.2f",
+						this.dcntrl.anoDiffMapWindows(diffP, mergeWin).get("d").maxs(), this.displayPanel().mergeWindows()));
+			}
+			else if (val.equals("AnoAlpha"))
+			{
+				MapParameters.AnomalousDiffusionParameters diffP = this.displayPanel().getAnoDiffusionParams();
+
+				todoOverlays.put("AnoAlpha", new ScalarMapOverlay(this.imp, this.dcntrl.anoDiffMapWindows(diffP, mergeWin).get("alpha"),
+						this.displayPanel().mergeWindows()));
+				todoOverlays.put("ColorBar", new ColorBarOverlay(this.imp, "%.2f",
+						this.dcntrl.anoDiffMapWindows(diffP, mergeWin).get("alpha").maxs(), this.displayPanel().mergeWindows()));
+			}
 			else if (val.equals("Drift"))
 			{
 				MapParameters.DriftParameters driftP = this.displayPanel().getDriftParams();
@@ -455,6 +519,10 @@ public class GUIController
 			this.imp.getOverlay().add(todoOverlays.get("Density"));
 		if (todoOverlays.containsKey("Diffusion"))
 			this.imp.getOverlay().add(todoOverlays.get("Diffusion"));
+		if (todoOverlays.containsKey("AnoDiffusion"))
+			this.imp.getOverlay().add(todoOverlays.get("AnoDiffusion"));
+		if (todoOverlays.containsKey("AnoAlpha"))
+			this.imp.getOverlay().add(todoOverlays.get("AnoAlpha"));
 		if (todoOverlays.containsKey("Drift"))
 			this.imp.getOverlay().add(todoOverlays.get("Drift"));
 

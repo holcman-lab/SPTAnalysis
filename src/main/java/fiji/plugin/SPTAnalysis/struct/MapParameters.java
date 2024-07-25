@@ -132,6 +132,64 @@ public abstract class MapParameters
 		}
 	}
 
+	@XmlRootElement(name = "DiffusionParameters")
+	@XmlAccessorType(XmlAccessType.FIELD)
+	public static class AnomalousDiffusionParameters extends MapParameters
+	{
+		public double dx;
+		public int nPts;
+		public int nPtsFit;
+		public boolean filter;
+		public double filterSize;
+
+		public AnomalousDiffusionParameters()
+		{
+		}
+
+		public AnomalousDiffusionParameters(double dx, int numPts, int numPtsFit,
+				boolean filter, double filterSize)
+		{
+			this.dx = dx;
+			this.nPts = numPts;
+			this.nPtsFit = numPtsFit;
+			this.filter = filter;
+			this.filterSize = filterSize;
+		}
+
+		@Override
+		public boolean equals(Object o)
+		{
+			if (o == this)
+				return true;
+			if (!(o instanceof AnomalousDiffusionParameters))
+				return false;
+
+			AnomalousDiffusionParameters p2 = (AnomalousDiffusionParameters) o;
+			return this.dx == p2.dx && this.nPts == p2.nPts &&
+					this.nPtsFit == p2.nPtsFit &&
+					this.filter == p2.filter && this.filterSize == p2.filterSize;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			//this is awful but we only need the hash to be equal for
+			//equal parameter values
+			return this.nPts * this.nPtsFit;
+		}
+
+		@Override
+		public String toString()
+		{
+			if (!this.filter)
+				return String.format("dx=%.3f_minNpts=%d_nPtsFit=%d", this.dx,
+						this.nPts, this.nPtsFit);
+			else
+				return String.format("dx=%.3f_minNpts=%d_nPtsFit=%d_filterSize=%g", this.dx,
+						this.nPts, this.nPtsFit, this.filterSize);
+		}
+	}
+
 	@XmlRootElement(name = "DriftParameters")
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class DriftParameters extends MapParameters

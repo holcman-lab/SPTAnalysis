@@ -17,6 +17,8 @@ import com.vividsolutions.jts.index.kdtree.KdNode;
 import com.vividsolutions.jts.index.kdtree.KdTree;
 
 import fiji.plugin.SPTAnalysis.Utils;
+import org.apache.commons.math3.stat.regression.SimpleRegression;
+
 
 @XmlRootElement(name = "ScalarMap")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -293,11 +295,97 @@ public class ScalarMap implements Iterable<double[]>
 		return new ScalarMap(g, diff, ps);
 	}
 
+	public static HashMap<String, ScalarMap> genAnomalousDiffusionMap(SquareGrid g, final TrajectoryEnsemble trajs, MapParameters.AnomalousDiffusionParameters ps)
+	{
+		HashMap<Integer, HashMap<Integer, List<Trajectory>>> trajsMap = new HashMap<Integer, HashMap<Integer, List<Trajectory>>>();
+
+		for (Trajectory tr: trajs.trajs)
+		{
+			for (int i = 0; i < tr.points().size() - 1; ++i)
+			{
+				Point p1 = tr.points().get(i);
+
+				if (p1.x < g.Xmin()[0] || p1.x > g.Xmax()[0] || p1.y < g.Xmin()[1] || p1.y > g.Xmax()[1])
+					continue;
+
+				int[] gpos = g.pos_to_gpos(new double[] {p1.x, p1.y});
+
+				if (!trajsMap.containsKey(gpos[0]))
+					trajsMap.put(gpos[0], new HashMap<Integer, List<Trajectory>>());
+				if (!trajsMap.get(gpos[0]).containsKey(gpos[1]))
+					trajsMap.get(gpos[0]).put(gpos[1], new ArrayList<Trajectory>());
+
+				if (tr.points().size() - i > ps.nPtsFit)
+					trajsMap.get(gpos[0]).get(gpos[1]).add(Trajectory.subTrajStartingAt(tr, i));
+			}
+		}
+
+		HashMap<Integer, HashMap<Integer, Double>> alpha = new HashMap<Integer, HashMap<Integer, Double>>();
+		HashMap<Integer, HashMap<Integer, Double>> d = new HashMap<Integer, HashMap<Integer, Double>>();
+
+		for (Integer i: trajsMap.keySet())
+		{
+			if (!alpha.containsKey(i))
+			{
+				alpha.put(i, new HashMap<Integer, Double>());
+				d.put(i, new HashMap<Integer, Double>());
+			}
+
+			for (Integer j: trajsMap.get(i).keySet())
+			{
+				double alphas = 0.0;
+				double ds = 0.0;
+				double N = 0;
+
+				for (Trajectory tr: trajsMap.get(i).get(j))
+				{
+					double[][] xs = new double[ps.nPtsFit][2];
+					final Point p0 = tr.points().get(0);
+					for (int k = 0; k < ps.nPtsFit; ++k)
+					{
+						final Point p = tr.points().get(k+1);
+						xs[k][0] = Math.log(p.t - p0.t);
+						xs[k][1] = Math.log((p.x - p0.x) * (p.x - p0.x) + (p.y - p0.y) * (p.y - p0.y));
+					}
+
+
+					SimpleRegression sr = new SimpleRegression(true);
+					sr.addData(xs);
+
+					//make sure fit makes sense
+					if (sr.getSlope() > 0 && sr.getSlope() <= 2.0)
+					{
+						alphas += sr.getSlope();
+						ds += Math.exp(sr.getIntercept());
+						N++;
+					}
+				}
+
+				if (N >= ps.nPts)
+				{
+					alpha.get(i).put(j, (Double) alphas / N);
+					d.get(i).put(j, (Double) ds / N);
+				}
+			}
+
+			if (alpha.get(i).isEmpty())
+			{
+				alpha.remove(i);
+				d.remove(i);
+			}
+		}
+
+		HashMap<String, ScalarMap> res = new HashMap<> ();
+		res.put("alpha", new ScalarMap(g, alpha, ps));
+		res.put("d", new ScalarMap(g, d, ps));
+		return res;
+	}
+
 	private static class KdVal
 	{
 		public final Trajectory tr;
 		public final int idx;
-		
+
 		public KdVal(final Trajectory tr, int idx)
 		{
 			this.tr = tr;
@@ -356,6 +444,84 @@ public class ScalarMap implements Iterable<double[]>
 		return new ScalarMap(g, diff, ps);
 	}
 
+	public static HashMap<String,ScalarMap> genAnomalousDiffusionMapFiltered(SquareGrid g, final TrajectoryEnsemble trajs, MapParameters.AnomalousDiffusionParameters ps)
+	{
+		HashMap<Integer, HashMap<Integer, Double>> alpha = new HashMap<Integer, HashMap<Integer, Double>>();
+		HashMap<Integer, HashMap<Integer, Double>> d = new HashMap<Integer, HashMap<Integer, Double>>();
+
+		KdTree kdt = new KdTree();
+		for (Trajectory tr: trajs.trajs)
+			for (int i = 0; i < tr.points.size() - 1; ++i)
+				kdt.insert(new Coordinate(tr.points.get(i).x, tr.points.get(i).y), new KdVal(tr, i));
+
+		Iterator<int[]> it = g.iterator();
+		while (it.hasNext())
+		{
+			int[] gpos = it.next();
+			double[] pos = g.get(gpos[0], gpos[1]);
+
+			Envelope evlp = new Envelope(pos[0] - ps.filterSize, pos[0] + ps.filterSize,
+										 pos[1] - ps.filterSize, pos[1] + ps.filterSize);
+
+			@SuppressWarnings("unchecked")
+			List<KdNode> nhs = kdt.query(evlp);
+
+			double alphas = 0.0;
+			double ds = 0.0;
+			double sumW = 0.0;
+			int npts = 0;
+			for (final KdNode kdn: nhs)
+			{
+				KdVal kdv = (KdVal) kdn.getData();
+
+				if (!(kdv.tr.points().size() - kdv.idx >= ps.nPtsFit))
+					continue;
+
+				Point p1 = kdv.tr.points.get(kdv.idx);
+
+				double dist = Utils.dist(p1.vec(), pos);
+				if (dist < ps.filterSize)
+				{
+					Trajectory subTr = Trajectory.subTrajStartingAt(kdv.tr, kdv.idx);
+					double w = Math.cos(Math.PI / 2 * dist / ps.filterSize);
+
+					double[][] xs = new double[subTr.points().size()][2];
+					xs[0][0] = 0;
+					xs[0][1] = 0;
+					final Point p0 = subTr.points().get(0);
+					for (int k = 1; k < subTr.points().size(); ++k)
+					{
+						final Point p = subTr.points().get(k);
+						xs[k][0] = Math.log(p.t - p0.t);
+						xs[k][1] = Math.log((p.x - p0.x) * (p.x - p0.x) + (p.y - p0.y) * (p.y - p0.y));
+					}
+
+					SimpleRegression sr = new SimpleRegression(true);
+					sr.addData(xs);
+					alphas += w * sr.getSlope();
+					ds += w * Math.exp(sr.getIntercept());
+					sumW += w;
+					++npts;
+				}
+			}
+
+			if (npts > ps.nPts)
+			{
+				if (!alpha.containsKey(gpos[0]))
+				{
+					alpha.put(gpos[0], new HashMap<Integer, Double>());
+					d.put(gpos[0], new HashMap<Integer, Double>());
+				}
+				alpha.get(gpos[0]).put(gpos[1], alphas / sumW);
+				d.get(gpos[0]).put(gpos[1], ds / sumW);
+			}
+		}
+
+		HashMap<String, ScalarMap> res = new HashMap<> ();
+		res.put("alpha", new ScalarMap(g, alpha, ps));
+		res.put("d", new ScalarMap(g, d, ps));
+		return res;
+	}
 
 	public static ScalarMap genDensityMapFiltered(final ScalarMap map, MapParameters.DensityParameters ps)
 	{

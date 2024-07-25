@@ -25,6 +25,14 @@ public class Trajectory
 	@XmlJavaTypeAdapter(XMLAdapters.TrajectoryAdapter.class)
 	protected ArrayList<Point> points;
 
+	public static Trajectory subTrajStartingAt(final Trajectory traj, int first)
+	{
+		Trajectory newT = new Trajectory(-1, traj.id());
+		for (int i = first; i < traj.points().size(); ++i)
+			newT.points().add(traj.points().get(i));
+		return newT;
+	}
+
 	public Trajectory()
 	{
 		this.id = null;

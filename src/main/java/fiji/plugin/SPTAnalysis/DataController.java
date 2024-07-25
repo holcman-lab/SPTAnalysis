@@ -38,12 +38,20 @@ public class DataController
 	@XmlTransient
 	private HashMap<MapParameters.DiffusionParameters, ScalarMapWindows> diffMaps;
 	@XmlTransient
+	private HashMap<MapParameters.AnomalousDiffusionParameters, ScalarMapWindows> alphaMaps;
+	@XmlTransient
+	private HashMap<MapParameters.AnomalousDiffusionParameters, ScalarMapWindows> anoDiffMaps;
+	@XmlTransient
 	private HashMap<MapParameters.DriftParameters, VectorMapWindows> driftMaps;
 
 	@XmlTransient
 	private HashMap<MapParameters.DensityParameters, ScalarMapWindows> densMapsFlat;
 	@XmlTransient
 	private HashMap<MapParameters.DiffusionParameters, ScalarMapWindows> diffMapsFlat;
+	@XmlTransient
+	private HashMap<MapParameters.AnomalousDiffusionParameters, ScalarMapWindows> alphaMapsFlat;
+	@XmlTransient
+	private HashMap<MapParameters.AnomalousDiffusionParameters, ScalarMapWindows> anoDiffMapsFlat;
 	@XmlTransient
 	private HashMap<MapParameters.DriftParameters, VectorMapWindows> driftMapsFlat;
 
@@ -94,6 +102,8 @@ public class DataController
 		this.densMaps = new HashMap<> ();
 		this.diffMaps = new HashMap<> ();
 		this.driftMaps = new HashMap<> ();
+		this.alphaMaps = new HashMap<> ();
+		this.anoDiffMaps = new HashMap<> ();
 
 		this.densMapsFlat = new HashMap<> ();
 		this.diffMapsFlat = new HashMap<> ();
@@ -209,6 +219,21 @@ public class DataController
 			this.diffMaps.put(ps, diffs);
 	}
 
+	public void attachAnomalousDiff(MapParameters.AnomalousDiffusionParameters ps, ScalarMapWindows alphas,
+			ScalarMapWindows aDs, boolean flattenTimeWindow)
+	{
+		if (flattenTimeWindow)
+		{
+			this.alphaMapsFlat.put(ps, alphas);
+			this.anoDiffMapsFlat.put(ps, aDs);
+		}
+		else
+		{
+			this.alphaMaps.put(ps, alphas);
+			this.anoDiffMaps.put(ps, aDs);
+		}
+	}
+
 	public void attachDrift(MapParameters.DriftParameters ps, VectorMapWindows drifts,
 			boolean flattenTimeWindow)
 	{
@@ -300,6 +325,43 @@ public class DataController
 		}
 
 		return this.diffMaps(flattenTimeWindow).get(ps);
+	}
+
+	public HashMap<MapParameters.AnomalousDiffusionParameters, ScalarMapWindows> anoDiffMaps(boolean flattenTimeWindow)
+	{
+		if (flattenTimeWindow)
+			return this.anoDiffMapsFlat;
+		return this.anoDiffMaps;
+	}
+
+	public HashMap<MapParameters.AnomalousDiffusionParameters, ScalarMapWindows> anoAlphaMaps(boolean flattenTimeWindow)
+	{
+		if (flattenTimeWindow)
+			return this.alphaMapsFlat;
+		return this.alphaMaps;
+	}
+
+	public HashMap<String, ScalarMapWindows> anoDiffMapWindows(final MapParameters.AnomalousDiffusionParameters ps, boolean flattenTimeWindow)
+	{
+		if (!this.anoDiffMaps(flattenTimeWindow).containsKey(ps))
+		{
+			TrajectoryEnsembleWindows tmp = this.trajs;
+			if (flattenTimeWindow)
+			{
+				tmp = new TrajectoryEnsembleWindows();
+				tmp.wins.add(this.trajsFlat);
+			}
+
+			HashMap<String, ScalarMapWindows> maps = ScalarMapWindows.genAnomalousDiffusionMaps(tmp, ps);
+			this.anoAlphaMaps(flattenTimeWindow).put(ps, maps.get("alpha"));
+			this.anoDiffMaps(flattenTimeWindow).put(ps, maps.get("d"));
+		}
+
+		HashMap<String, ScalarMapWindows> res = new HashMap<> ();
+		res.put("alpha", this.anoAlphaMaps(flattenTimeWindow).get(ps));
+		res.put("d", this.anoDiffMaps(flattenTimeWindow).get(ps));
+
+		return res;
 	}
 
 	public HashMap<MapParameters.DriftParameters, VectorMapWindows> driftMaps(boolean flattenTimeWindow)

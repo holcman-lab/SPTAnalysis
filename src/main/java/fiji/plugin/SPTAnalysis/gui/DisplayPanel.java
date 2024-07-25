@@ -37,6 +37,7 @@ public class DisplayPanel  extends JPanel
 	public static final Double DEFAULT_DENS_BIN_W = 0.2;
 	public static final Double DEFAULT_DIFF_BIN_W = 0.2;
 	public static final Integer DEFAULT_DIFF_MIN_NPTS = 5;
+	public static final Integer DEFAULT_ANODIFF_MIN_TR_PTS = 4;
 	public static final Double DEFAULT_DIFF_FILTER_SIZE = 0.2;
 	public static final Double DEFAULT_DRIFT_BIN_W = 0.2;
 	public static final Integer DEFAULT_DRIFT_MIN_NPTS = 5;
@@ -58,6 +59,9 @@ public class DisplayPanel  extends JPanel
 	private final JFormattedTextField densBinWidthPanel;
 	private final JFormattedTextField diffBinWidthPanel;
 	private final JFormattedTextField diffNptsThPanel;
+	private final JFormattedTextField anoDiffBinWidthPanel;
+	private final JFormattedTextField anoDiffNptsThPanel;
+	private final JFormattedTextField anoDiffNptsFitPanel;
 	private final JFormattedTextField driftBinWidthPanel;
 	private final JFormattedTextField driftNptsThPanel;
 	private final JFormattedTextField driftSizeMultPanel;
@@ -66,6 +70,10 @@ public class DisplayPanel  extends JPanel
 	private final JButton trajsDispHist;
 	private final Checkbox densDispPan;
 	private final JButton densDispHist;
+	private final Checkbox anoDiffDispPan;
+	private final JButton anoDiffDispHist;
+	private final Checkbox anoAlphaDispPan;
+	private final JButton anoAlphaDispHist;
 	private final Checkbox diffDispPan;
 	private final JButton diffDispHist;
 	private final Checkbox driftDispPan;
@@ -75,9 +83,11 @@ public class DisplayPanel  extends JPanel
 	private JCheckBox mergeWindows;
 	private JCheckBox colorByFamily;
 	private JCheckBox filteredDiffBox;
+	private JCheckBox filteredAnoDiffBox;
 	private JCheckBox filteredDriftBox;
 
 	private final JFormattedTextField diffFilterSizePan;
+	private final JFormattedTextField anoDiffFilterSizePan;
 	private final JFormattedTextField driftFilterSizePan;
 
 	private JFormattedTextField scaleBarLength;
@@ -161,6 +171,47 @@ public class DisplayPanel  extends JPanel
 			public void actionPerformed(ActionEvent e)
 			{
 				gCntrl.displayDiffHist(getDiffusionParams());
+			}
+		});
+
+		this.anoDiffDispPan = new Checkbox("Anomalous Diffusion", false);
+		this.anoDiffDispPan.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent arg0)
+			{
+				gCntrl.display();
+			}
+		});
+
+		this.anoDiffDispHist = new JButton("Hist");
+		this.anoDiffDispHist.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				gCntrl.displayAnoDiffHist(getAnoDiffusionParams());
+			}
+		});
+
+
+		this.anoAlphaDispPan = new Checkbox("Anomalous alpha", false);
+		this.anoAlphaDispPan.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent arg0)
+			{
+				gCntrl.display();
+			}
+		});
+
+		this.anoAlphaDispHist = new JButton("Hist");
+		this.anoAlphaDispHist.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				gCntrl.displayAnoAlphaHist(getAnoDiffusionParams());
 			}
 		});
 
@@ -254,6 +305,49 @@ public class DisplayPanel  extends JPanel
 				gCntrl.display();
 			}
 		});
+	
+		this.anoDiffBinWidthPanel = new JFormattedTextField(new DecimalFormat("0.000"));
+		this.anoDiffBinWidthPanel.setValue(DEFAULT_DIFF_BIN_W);
+		this.anoDiffBinWidthPanel.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				gCntrl.display();
+			}
+		});
+
+		this.anoDiffNptsThPanel = new JFormattedTextField(new DecimalFormat("0"));
+		this.anoDiffNptsThPanel.setValue(DEFAULT_DIFF_MIN_NPTS);
+		this.anoDiffNptsThPanel.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				gCntrl.display();
+			}
+		});
+	
+		this.anoDiffNptsFitPanel = new JFormattedTextField(new DecimalFormat("0"));
+		this.anoDiffNptsFitPanel.setValue(DEFAULT_ANODIFF_MIN_TR_PTS);
+		this.anoDiffNptsFitPanel.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				gCntrl.display();
+			}
+		});
+
+		this.filteredAnoDiffBox = new JCheckBox();
+		this.filteredAnoDiffBox.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
+				gCntrl.display();
+			}
+		});
 
 		this.filteredDriftBox = new JCheckBox();
 		this.filteredDriftBox.addItemListener(new ItemListener()
@@ -268,6 +362,17 @@ public class DisplayPanel  extends JPanel
 		this.diffFilterSizePan = new JFormattedTextField(new DecimalFormat("0.000"));
 		this.diffFilterSizePan.setValue(DEFAULT_DIFF_FILTER_SIZE);
 		this.diffFilterSizePan.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				gCntrl.display();
+			}
+		});
+
+		this.anoDiffFilterSizePan = new JFormattedTextField(new DecimalFormat("0.000"));
+		this.anoDiffFilterSizePan.setValue(DEFAULT_DIFF_FILTER_SIZE);
+		this.anoDiffFilterSizePan.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
@@ -396,6 +501,10 @@ public class DisplayPanel  extends JPanel
 			res.add("Density");
 		if (this.diffDispPan .getState())
 			res.add("Diffusion");
+		if (this.anoDiffDispPan .getState())
+			res.add("AnoDiffusion");
+		if (this.anoAlphaDispPan .getState())
+			res.add("AnoAlpha");
 		if (this.trajsDispPan.getState())
 			res.add("Trajectories");
 		if (this.driftDispPan.getState())
@@ -432,152 +541,200 @@ public class DisplayPanel  extends JPanel
 		cLabel.gridy = 0;
 		this.add(GUIController.newBoldLabel("Show"), cLabel);
 
-		cLabel.gridy = 1;
+		cLabel.gridy++;
 		this.add(this.trajsDispPan, cLabel);
-		cData.gridy = 1;
+		cData.gridy = cLabel.gridy;
 		this.add(this.trajsDispHist, cData);
 
-		cLabel.gridy = 2;
+		cLabel.gridy++;
 		this.add(this.densDispPan, cLabel);
-		cData.gridy = 2;
+		cData.gridy = cLabel.gridy;
 		this.add(this.densDispHist, cData);
 
-		cLabel.gridy = 3;
+		cLabel.gridy++;
 		this.add(this.diffDispPan, cLabel);
-		cData.gridy = 3;
+		cData.gridy = cLabel.gridy;
 		this.add(this.diffDispHist, cData);
 
-		cLabel.gridy = 4;
+		cLabel.gridy++;
+		this.add(this.anoDiffDispPan, cLabel);
+		cData.gridy = cLabel.gridy;
+		this.add(this.anoDiffDispHist, cData);
+
+		cLabel.gridy++;
+		this.add(this.anoAlphaDispPan, cLabel);
+		cData.gridy = cLabel.gridy;
+		this.add(this.anoAlphaDispHist, cData);
+
+		cLabel.gridy++;
 		this.add(this.driftDispPan, cLabel);
 
-		c.gridy = 5;
+		cLabel.gridy++;
+		c.gridy = cLabel.gridy;
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
-		cLabel.gridy = 6;
+		cLabel.gridy++;
 		this.add(GUIController.newBoldLabel("Trajectory Options"), cLabel);
 
-		cLabel.gridy = 7;
-		cData.gridy = 7;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Color"), cLabel);
 		this.add(this.trajectoryColor, cData);
 
-		cLabel.gridy = 8;
-		cData.gridy = 8;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Max. inst. vel. (µm/s)"), cLabel);
 		this.add(this.trajMaxInstVelPanel, cData);
 
 
-
-		c.gridy = 9;
+		cLabel.gridy++;
+		c.gridy = cLabel.gridy;
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
-		cLabel.gridy = 10;
+		cLabel.gridy++;
 		this.add(GUIController.newBoldLabel("Density Map Options"), cLabel);
 
-		cLabel.gridy = 11;
-		cData.gridy = 11;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Density bins width (µm)"), cLabel);
 		this.add(this.densBinWidthPanel, cData);
 
-		cLabel.gridy = 12;
-		cData.gridy = 12;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Log density"), cLabel);
 		this.add(this.logDens, cData);
 
-		cLabel.gridy = 13;
-		cData.gridy = 13;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Filter size (NxN)"), cLabel);
 		this.add(this.DensFilterSizeChoice, cData);
 
 
-		c.gridy = 14;
+		cLabel.gridy++;
+		c.gridy = cLabel.gridy;
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
-		cLabel.gridy = 15;
+		cLabel.gridy++;
 		this.add(GUIController.newBoldLabel("Diffusion map options"), cLabel);
 
-		cLabel.gridy = 16;
-		cData.gridy = 16;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Diffusion bins width (µm)"), cLabel);
 		this.add(this.diffBinWidthPanel, cData);
 
-		cLabel.gridy = 17;
-		cData.gridy = 17;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Diffusion min. num. pts."), cLabel);
 		this.add(this.diffNptsThPanel, cData);
 
-		cLabel.gridy = 18;
-		cData.gridy = 18;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Apply cosine filter"), cLabel);
 		this.add(this.filteredDiffBox, cData);
 
-		cLabel.gridy = 19;
-		cData.gridy = 19;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Cosine filter radius (µm)"), cLabel);
 		this.add(this.diffFilterSizePan, cData);
 
-		c.gridy = 20;
+		cLabel.gridy++;
+		c.gridy = cLabel.gridy;
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
-		cLabel.gridy = 21;
+		cLabel.gridy++;
+		this.add(GUIController.newBoldLabel("Anomalous Diffusion map options"), cLabel);
+
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
+		this.add(new JLabel("Ano. Diffusion bins width (µm)"), cLabel);
+		this.add(this.anoDiffBinWidthPanel, cData);
+
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
+		this.add(new JLabel("Ano. Diffusion min. num. pts."), cLabel);
+		this.add(this.anoDiffNptsThPanel, cData);
+
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
+		this.add(new JLabel("Ano. Diffusion min. tr. fit"), cLabel);
+		this.add(this.anoDiffNptsFitPanel, cData);
+
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
+		this.add(new JLabel("Apply cosine filter"), cLabel);
+		this.add(this.filteredAnoDiffBox, cData);
+
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
+		this.add(new JLabel("Cosine filter radius (µm)"), cLabel);
+		this.add(this.anoDiffFilterSizePan, cData);
+
+		cLabel.gridy++;
+		c.gridy = cLabel.gridy;
+		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
+
+		cLabel.gridy++;
+		c.gridy = cLabel.gridy;
 		this.add(GUIController.newBoldLabel("Drift map options"), cLabel);
 
-		cLabel.gridy = 22;
-		cData.gridy = 22;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Drift bins width (μm)"), cLabel);
 		this.add(this.driftBinWidthPanel, cData);
 
-		cLabel.gridy = 23;
-		cData.gridy = 23;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Drift min. num. pts."), cLabel);
 		this.add(this.driftNptsThPanel, cData);
-		
-		cLabel.gridy = 24;
-		cData.gridy = 24;
+
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Apply cosine filter"), cLabel);
 		this.add(this.filteredDriftBox, cData);
 
-		cLabel.gridy = 25;
-		cData.gridy = 25;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Cosine filter radius (μm)"), cLabel);
 		this.add(this.driftFilterSizePan, cData);
 
-		cLabel.gridy = 26;
-		cData.gridy = 26;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Size multiplier"), cLabel);
 		this.add(this.driftSizeMultPanel, cData);
 
-
-		c.gridy = 27;
+		cLabel.gridy++;
+		c.gridy = cLabel.gridy;
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
-		cLabel.gridy = 28;
+		cLabel.gridy++;
 		this.add(GUIController.newBoldLabel("Time-windows options"), cLabel);
 
-		cLabel.gridy = 29;
-		cData.gridy = 29;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Merge windows"), cLabel);
 		this.add(this.mergeWindows, cData);
 
-		c.gridy = 30;
+		cLabel.gridy++;
+		c.gridy = cLabel.gridy;
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
-		cLabel.gridy = 31;
+		cLabel.gridy++;
 		this.add(GUIController.newBoldLabel("Potential wells options"), cLabel);
 
-		cLabel.gridy = 32;
-		cData.gridy = 32;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		this.add(new JLabel("Color by family"), cLabel);
 		this.add(this.colorByFamily, cData);
 
-		c.gridy = 33;
+		cLabel.gridy++;
+		c.gridy = cLabel.gridy;
 		this.add(new JSeparator(JSeparator.HORIZONTAL), c);
 
-		cLabel.gridy = 34;
+		cLabel.gridy++;
 		this.add(GUIController.newBoldLabel("Scale bar options"), cLabel);
 
-		cLabel.gridy = 35;
-		cData.gridy = 35;
+		cLabel.gridy++;
+		cData.gridy = cLabel.gridy;
 		cLabel.insets = new Insets(10, 15, 10, 10);
 		cData.insets = new Insets(10, 15, 10, 10);
 		this.add(new JLabel("Length (µm)"), cLabel);
@@ -614,6 +771,15 @@ public class DisplayPanel  extends JPanel
 												 ((Number) this.diffNptsThPanel.getValue()).intValue(),
 												 this.filteredDiffBox.isSelected(),
 												 ((Number) this.diffFilterSizePan.getValue()).doubleValue());
+	}
+
+	public MapParameters.AnomalousDiffusionParameters getAnoDiffusionParams()
+	{
+		return new MapParameters.AnomalousDiffusionParameters(((Number) this.anoDiffBinWidthPanel.getValue()).doubleValue(),
+												 ((Number) this.anoDiffNptsThPanel.getValue()).intValue(),
+												 ((Number) this.anoDiffNptsFitPanel.getValue()).intValue(),
+												 this.filteredAnoDiffBox.isSelected(),
+												 ((Number) this.anoDiffFilterSizePan.getValue()).doubleValue());
 	}
 
 	public MapParameters.DriftParameters getDriftParams()

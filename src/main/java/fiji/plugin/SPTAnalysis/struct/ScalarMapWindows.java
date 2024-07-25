@@ -1,6 +1,7 @@
 package fiji.plugin.SPTAnalysis.struct;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ScalarMapWindows
 {
@@ -54,6 +55,27 @@ public class ScalarMapWindows
 				res.wins.add(ScalarMap.genDiffusionMapFiltered(new SquareGrid(trajs, opts.dx), trajs, opts));
 			else
 				res.wins.add(ScalarMap.genDiffusionMap(new SquareGrid(trajs, opts.dx), trajs, opts));
+		}
+		return res;
+	}
+
+	public static HashMap<String,ScalarMapWindows> genAnomalousDiffusionMaps(final TrajectoryEnsembleWindows trajsw,
+			MapParameters.AnomalousDiffusionParameters opts)
+	{
+		HashMap<String,ScalarMapWindows> res = new HashMap<> ();
+		res.put("alpha", new ScalarMapWindows());
+		res.put("d", new ScalarMapWindows());
+
+		for (final TrajectoryEnsemble trajs: trajsw.wins)
+		{
+			HashMap<String, ScalarMap> maps = null;
+			if (opts.filter)
+				maps = ScalarMap.genAnomalousDiffusionMapFiltered(new SquareGrid(trajs, opts.dx), trajs, opts);
+			else
+				maps = ScalarMap.genAnomalousDiffusionMap(new SquareGrid(trajs, opts.dx), trajs, opts);
+
+			res.get("alpha").wins.add(maps.get("alpha"));
+			res.get("d").wins.add(maps.get("d"));
 		}
 		return res;
 	}
