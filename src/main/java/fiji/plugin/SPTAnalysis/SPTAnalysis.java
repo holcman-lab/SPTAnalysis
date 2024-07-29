@@ -1,5 +1,7 @@
 package fiji.plugin.SPTAnalysis;
 
+import java.util.HashMap;
+
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import org.scijava.ItemIO;
@@ -56,7 +58,12 @@ public class SPTAnalysis implements Command
 
 	public static void main(String[] args)
 	{
-		System.out.println( "Hello World!" );
+		System.out.println("Hello World!");
+	}
+
+	public static String version()
+	{
+		return "1.5.0";
 	}
 
 	private void launchApp()
@@ -93,12 +100,17 @@ public class SPTAnalysis implements Command
 
 		ScalarMapWindows denss = new ScalarMapWindows();
 		ScalarMapWindows diffs = new ScalarMapWindows();
+		ScalarMapWindows anoDiffsD = new ScalarMapWindows();
+		ScalarMapWindows anoDiffsA = new ScalarMapWindows();
 		VectorMapWindows drifts = new VectorMapWindows();
 
 		MapParameters.DensityParameters deps = new MapParameters.DensityParameters(
 				DisplayPanel.DEFAULT_DENS_BIN_W, ScalarMap.DensityOption.DENS, 0);
 		MapParameters.DiffusionParameters dips = new MapParameters.DiffusionParameters(
 				DisplayPanel.DEFAULT_DIFF_BIN_W, DisplayPanel.DEFAULT_DIFF_MIN_NPTS,
+				false, DisplayPanel.DEFAULT_DIFF_FILTER_SIZE);
+		MapParameters.AnomalousDiffusionParameters adips = new MapParameters.AnomalousDiffusionParameters(
+				DisplayPanel.DEFAULT_DIFF_BIN_W, DisplayPanel.DEFAULT_DIFF_MIN_NPTS, DisplayPanel.DEFAULT_ANODIFF_MIN_TR_PTS,
 				false, DisplayPanel.DEFAULT_DIFF_FILTER_SIZE);
 		MapParameters.DriftParameters drps = new MapParameters.DriftParameters(
 				DisplayPanel.DEFAULT_DRIFT_BIN_W, DisplayPanel.DEFAULT_DRIFT_MIN_NPTS,
@@ -108,11 +120,15 @@ public class SPTAnalysis implements Command
 		{
 			denss.wins.add(ScalarMap.genDensityMap(new SquareGrid(te, deps.dx), te, deps));
 			diffs.wins.add(ScalarMap.genDiffusionMap(new SquareGrid(te, dips.dx), te, dips));
+			HashMap<String,ScalarMap> tmp = ScalarMap.genAnomalousDiffusionMap(new SquareGrid(te, dips.dx), te, adips);
+			anoDiffsD.wins.add(tmp.get("d"));
+			anoDiffsA.wins.add(tmp.get("alpha"));
 			drifts.wins.add(VectorMap.genDriftMap(new SquareGrid(te, drps.dx), te, drps));
 		}
 
 		this.dcntrl().attachDens(deps, denss, false);
 		this.dcntrl().attachDiff(dips, diffs, false);
+		this.dcntrl().attachAnomalousDiff(adips, anoDiffsA, anoDiffsD, false);
 		this.dcntrl().attachDrift(drps, drifts, false);
 
 		this.pcntrl.display();

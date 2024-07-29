@@ -132,7 +132,7 @@ public abstract class MapParameters
 		}
 	}
 
-	@XmlRootElement(name = "DiffusionParameters")
+	@XmlRootElement(name = "AnomalousDiffusionParameters")
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class AnomalousDiffusionParameters extends MapParameters
 	{

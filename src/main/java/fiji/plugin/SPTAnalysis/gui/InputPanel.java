@@ -155,14 +155,12 @@ public class InputPanel extends JPanel
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridy = 0;
 			c.insets = new Insets(10, 0, 0, 0);
-	
+
 			c.gridx = 0;
 			c.anchor = GridBagConstraints.WEST;
 			this.add(new JLabel("The manual can be found "), c);
-	
+
 			c.gridx = 1;
-			c.insets = new Insets(10, 0, 0, 0);
-			c.anchor = GridBagConstraints.WEST;
 			try
 			{
 				this.add(new LinkLabel(new URI("https://docs.google.com/document/d/12a4hNXNEbJDkbb1czrA6oWm2YvU80d-FFRzxe6pkhtQ/edit?usp=sharing"),
@@ -243,7 +241,7 @@ public class InputPanel extends JPanel
 
 				selected = inputFormatField.getSelectedItem();
 
-				int cpt = 7;
+				int cpt = 8;
 				for (Component jp: inputOptionsPanel.get(selected))
 				{
 					{
@@ -303,9 +301,18 @@ public class InputPanel extends JPanel
 
 		{
 			GridBagConstraints c = new GridBagConstraints();
+			c.gridy = 3;
+			c.gridwidth = 2;
+			c.anchor = GridBagConstraints.WEST;
+			c.insets = new Insets(2, 10, 0, 10);
+			this.add(new JLabel("You are using version " + SPTAnalysis.version()), c);
+		}
+
+		{
+			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 1;
-			c.gridy = 3;
+			c.gridy = 4;
 			c.gridwidth = GridBagConstraints.REMAINDER;
 			c.insets = new Insets(5, 10, 0, 10);
 			add(new JSeparator(JSeparator.HORIZONTAL), c);
@@ -315,7 +322,7 @@ public class InputPanel extends JPanel
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0.5;
-			c.gridy = 4;
+			c.gridy = 5;
 			c.insets = new Insets(5, 10, 0, 0);
 			this.add(new JLabel("Load from"), c);
 		}
@@ -324,7 +331,7 @@ public class InputPanel extends JPanel
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0.5;
-			c.gridy = 4;
+			c.gridy = 5;
 			c.gridwidth = GridBagConstraints.REMAINDER;
 			c.insets = new Insets(5, 0, 0, 10);
 			this.add(this.inputFormatField, c);
@@ -334,7 +341,7 @@ public class InputPanel extends JPanel
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0.5;
-			c.gridy = 5;
+			c.gridy = 6;
 			c.insets = new Insets(5, 10, 0, 0);
 			this.add(new JLabel("Choose file"), c);
 		}
@@ -343,7 +350,7 @@ public class InputPanel extends JPanel
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0.5;
-			c.gridy = 5;
+			c.gridy = 6;
 			c.gridwidth = GridBagConstraints.REMAINDER;
 			c.insets = new Insets(5, 0, 0, 10);
 			JButton compute = new JButton("File");
@@ -370,7 +377,7 @@ public class InputPanel extends JPanel
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 1;
-			c.gridy = 6;
+			c.gridy = 7;
 			c.gridwidth = GridBagConstraints.REMAINDER;
 			c.insets = new Insets(5, 10, 0, 10);
 			this.add(new JSeparator(JSeparator.HORIZONTAL), c);
@@ -381,7 +388,7 @@ public class InputPanel extends JPanel
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 1;
 			c.gridwidth = GridBagConstraints.REMAINDER;
-			c.gridy = 11;
+			c.gridy = 12;
 			c.insets = new Insets(5, 10, 0, 10);
 			this.loadButton = new JButton("LOAD");
 			this.loadButton.setEnabled(false);

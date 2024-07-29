@@ -333,38 +333,66 @@ public class ScalarMap implements Iterable<double[]>
 
 			for (Integer j: trajsMap.get(i).keySet())
 			{
-				double alphas = 0.0;
-				double ds = 0.0;
-				double N = 0;
+//				double alphas = 0.0;
+//				double ds = 0.0;
+//				double N = 0;
+//				for (Trajectory tr: trajsMap.get(i).get(j))
+//				{
+//					double[][] xs = new double[ps.nPtsFit][2];
+//					final Point p0 = tr.points().get(0);
+//					for (int k = 0; k < ps.nPtsFit; ++k)
+//					{
+//						final Point p = tr.points().get(k+1);
+//						xs[k][0] = Math.log(p.t - p0.t);
+//						xs[k][1] = Math.log((p.x - p0.x) * (p.x - p0.x) + (p.y - p0.y) * (p.y - p0.y));
+//					}
+//
+//
+//					SimpleRegression sr = new SimpleRegression(true);
+//					sr.addData(xs);
+//
+//					//make sure fit makes sense
+//					if (sr.getSlope() > 0 && sr.getSlope() <= 2.0)
+//					{
+//						alphas += sr.getSlope();
+//						ds += Math.exp(sr.getIntercept());
+//						N++;
+//					}
+//				}
+//
+//				if (N >= ps.nPts)
+//				{
+//					alpha.get(i).put(j, (Double) alphas / N);
+//					d.get(i).put(j, (Double) ds / N);
+//				}
 
+				if (trajsMap.get(i).get(j).size() < ps.nPts)
+					continue;
+
+				double[][] sds = new double[ps.nPtsFit][2];
+				boolean filledX = false;
 				for (Trajectory tr: trajsMap.get(i).get(j))
 				{
-					double[][] xs = new double[ps.nPtsFit][2];
 					final Point p0 = tr.points().get(0);
 					for (int k = 0; k < ps.nPtsFit; ++k)
 					{
 						final Point p = tr.points().get(k+1);
-						xs[k][0] = Math.log(p.t - p0.t);
-						xs[k][1] = Math.log((p.x - p0.x) * (p.x - p0.x) + (p.y - p0.y) * (p.y - p0.y));
+						if (!filledX)
+							sds[k][0] = Math.log(p.t - p0.t);
+						sds[k][1] += Math.log((p.x - p0.x) * (p.x - p0.x) + (p.y - p0.y) * (p.y - p0.y));
 					}
-
-
-					SimpleRegression sr = new SimpleRegression(true);
-					sr.addData(xs);
-
-					//make sure fit makes sense
-					if (sr.getSlope() > 0 && sr.getSlope() <= 2.0)
-					{
-						alphas += sr.getSlope();
-						ds += Math.exp(sr.getIntercept());
-						N++;
-					}
+					filledX = true;
 				}
+				for (int k=0; k < ps.nPtsFit; ++k)
+					sds[k][1] /= trajsMap.get(i).get(j).size();
 
-				if (N >= ps.nPts)
+				SimpleRegression sr = new SimpleRegression(true);
+				sr.addData(sds);
+				//make sure fit makes sense
+				if (sr.getSlope() > 0 && sr.getSlope() <= 2.0)
 				{
-					alpha.get(i).put(j, (Double) alphas / N);
-					d.get(i).put(j, (Double) ds / N);
+					alpha.get(i).put(j, sr.getSlope());
+					d.get(i).put(j, Math.exp(sr.getIntercept()));
 				}
 			}
 
@@ -466,15 +494,17 @@ public class ScalarMap implements Iterable<double[]>
 			@SuppressWarnings("unchecked")
 			List<KdNode> nhs = kdt.query(evlp);
 
-			double alphas = 0.0;
-			double ds = 0.0;
+			double[][] sds = new double[ps.nPtsFit][2];
+//			double alphas = 0.0;
+//			double ds = 0.0;
 			double sumW = 0.0;
 			int npts = 0;
+			boolean filledX = false;
 			for (final KdNode kdn: nhs)
 			{
 				KdVal kdv = (KdVal) kdn.getData();
 
-				if (!(kdv.tr.points().size() - kdv.idx >= ps.nPtsFit))
+				if (!(kdv.tr.points().size() - kdv.idx > ps.nPtsFit))
 					continue;
 
 				Point p1 = kdv.tr.points.get(kdv.idx);
@@ -484,24 +514,34 @@ public class ScalarMap implements Iterable<double[]>
 				{
 					Trajectory subTr = Trajectory.subTrajStartingAt(kdv.tr, kdv.idx);
 					double w = Math.cos(Math.PI / 2 * dist / ps.filterSize);
-
-					double[][] xs = new double[subTr.points().size()][2];
-					xs[0][0] = 0;
-					xs[0][1] = 0;
-					final Point p0 = subTr.points().get(0);
-					for (int k = 1; k < subTr.points().size(); ++k)
-					{
-						final Point p = subTr.points().get(k);
-						xs[k][0] = Math.log(p.t - p0.t);
-						xs[k][1] = Math.log((p.x - p0.x) * (p.x - p0.x) + (p.y - p0.y) * (p.y - p0.y));
-					}
-
-					SimpleRegression sr = new SimpleRegression(true);
-					sr.addData(xs);
-					alphas += w * sr.getSlope();
-					ds += w * Math.exp(sr.getIntercept());
 					sumW += w;
 					++npts;
+
+					final Point p0 = subTr.points().get(0);
+					for (int k = 0; k < ps.nPtsFit; ++k)
+					{
+						final Point p = subTr.points().get(k+1);
+						if (!filledX)
+							sds[k][0] = Math.log(p.t - p0.t);
+						sds[k][1] += w * Math.log((p.x - p0.x) * (p.x - p0.x) + (p.y - p0.y) * (p.y - p0.y));
+					}
+					filledX = true;
+
+//					double[][] xs = new double[subTr.points().size()][2];
+//					xs[0][0] = 0;
+//					xs[0][1] = 0;
+//					final Point p0 = subTr.points().get(0);
+//					for (int k = 1; k < subTr.points().size(); ++k)
+//					{
+//						final Point p = subTr.points().get(k);
+//						xs[k][0] = Math.log(p.t - p0.t);
+//						xs[k][1] = Math.log((p.x - p0.x) * (p.x - p0.x) + (p.y - p0.y) * (p.y - p0.y));
+//					}
+//
+//					SimpleRegression sr = new SimpleRegression(true);
+//					sr.addData(xs);
+//					alphas += w * sr.getSlope();
+//					ds += w * Math.exp(sr.getIntercept());
 				}
 			}
 
@@ -512,8 +552,20 @@ public class ScalarMap implements Iterable<double[]>
 					alpha.put(gpos[0], new HashMap<Integer, Double>());
 					d.put(gpos[0], new HashMap<Integer, Double>());
 				}
-				alpha.get(gpos[0]).put(gpos[1], alphas / sumW);
-				d.get(gpos[0]).put(gpos[1], ds / sumW);
+				//alpha.get(gpos[0]).put(gpos[1], alphas / sumW);
+				//d.get(gpos[0]).put(gpos[1], ds / sumW);
+
+				for (int k = 0; k < sds.length; ++k)
+					sds[k][1] /= sumW;
+
+				SimpleRegression sr = new SimpleRegression(true);
+				sr.addData(sds);
+				//make sure fit makes sense
+				if (sr.getSlope() > 0 && sr.getSlope() <= 2.0)
+				{
+					alpha.get(gpos[0]).put(gpos[1], sr.getSlope());
+					d.get(gpos[0]).put(gpos[1], Math.exp(sr.getIntercept()));
+				}
 			}
 		}
 
